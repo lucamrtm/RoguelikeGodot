@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://le6748rwxf6b"]
+[gd_scene load_steps=18 format=3 uid="uid://le6748rwxf6b"]
 
 [ext_resource type="Texture2D" uid="uid://cutcnm5txyh5q" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_idle_spritesheet.png" id="1_7g15j"]
 [ext_resource type="Texture2D" uid="uid://cdjctccr4d2y3" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_run_spritesheet.png" id="2_qr4ph"]
@@ -100,9 +100,30 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igy62"]
+radius = 4.0
+height = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8cmuq"]
+radius = 5.0
+height = 14.0
+
 [node name="goblin" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ykk2w")
 animation = &"idle"
-frame_progress = 0.507241
+frame_progress = 0.88171
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_igy62")
+
+[node name="hitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitBox"]
+shape = SubResource("CapsuleShape2D_8cmuq")
+debug_color = Color(0.829776, 0.335805, 0.538468, 0.42)
