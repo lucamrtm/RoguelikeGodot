@@ -1,12 +1,41 @@
-[gd_scene load_steps=19 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=27 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://dviv14pj3vejn" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/heroes/knight/knight_run_spritesheet.png" id="1_ecegt"]
+[ext_resource type="Texture2D" uid="uid://w3qb5fhgy2a3" path="res://Player/Animation/knight_attack_spritesheet.png" id="2_0mnx7"]
 [ext_resource type="Texture2D" uid="uid://cmgwg7labg7fw" path="res://Player/Animation/knight_idle_spritesheet.png" id="2_3ah73"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igctm"]
 radius = 5.0
 height = 10.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gy000"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkyri"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1do7f"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7woo"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2b3x"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_im8hn"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y07n"]
+atlas = ExtResource("2_0mnx7")
+region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cf4j1"]
 atlas = ExtResource("2_3ah73")
@@ -58,6 +87,32 @@ region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_njuvg"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gy000")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkyri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1do7f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7woo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2b3x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_im8hn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y07n")
+}],
+"loop": true,
+"name": &"attack_animation",
+"speed": 30.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cf4j1")
@@ -122,9 +177,10 @@ shape = SubResource("CapsuleShape2D_igctm")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_njuvg")
-animation = &"walk_animation"
+animation = &"attack_animation"
 autoplay = "idle_animation"
-frame_progress = 0.783618
+frame = 2
+frame_progress = 0.539272
 
 [node name="hurtBox" type="Area2D" parent="."]
 collision_mask = 3

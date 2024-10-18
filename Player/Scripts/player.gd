@@ -11,7 +11,8 @@ signal healthChanged
 @export var max_speed: float = 150
 @export var acceleration : float = 20
 
-
+# STATE
+var is_attacking: bool = false
 
 #HEALTH
 @export var maxHealth = 3
@@ -19,7 +20,9 @@ var currentHealth: int = maxHealth
 
 
 func updateAnimation():
-	if velocity.length() == 0:
+	if is_attacking:
+		return  # Se o personagem está atacando, não faz nada aqui para não sobrepor a animação.
+	elif velocity.length() == 0:
 		animated_sprite_2d.play("idle_animation")
 	else:
 		animated_sprite_2d.play("walk_animation")
@@ -58,8 +61,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("ui_accept"):  # "ui_accept" geralmente é mapeado para a barra de espaço
+		attack()
 
+func attack():
+	if not is_attacking:  # Garantir que não vamos interromper um ataque em andamento
+		is_attacking = true
+		animated_sprite_2d.play("attack_animation")
+		# Usa await em vez de yield para esperar um timer
+		await get_tree().create_timer(0.2).timeout
+		is_attacking = false
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area.name == "hitBox":
