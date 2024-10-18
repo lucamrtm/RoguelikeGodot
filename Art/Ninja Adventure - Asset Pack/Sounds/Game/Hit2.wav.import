@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://5wje5pwvaukv"
+path="res://.godot/imported/Hit2.wav-f12422d7c66afa17f52927b41cbd53f4.sample"
+
+[deps]
+
+source_file="res://Art/Ninja Adventure - Asset Pack/Sounds/Game/Hit2.wav"
+dest_files=["res://.godot/imported/Hit2.wav-f12422d7c66afa17f52927b41cbd53f4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

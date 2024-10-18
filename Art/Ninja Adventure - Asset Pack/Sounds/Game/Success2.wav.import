@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://k6m01yfy4btf"
+path="res://.godot/imported/Success2.wav-d9e6bd706c73aff15324f08e4a7fa6b4.sample"
+
+[deps]
+
+source_file="res://Art/Ninja Adventure - Asset Pack/Sounds/Game/Success2.wav"
+dest_files=["res://.godot/imported/Success2.wav-d9e6bd706c73aff15324f08e4a7fa6b4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

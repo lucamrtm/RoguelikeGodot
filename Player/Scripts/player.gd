@@ -3,18 +3,34 @@
 extends CharacterBody2D
 class_name Player
 
-
-@export var max_speed: float = 100
-@export var acceleration : float = 10
+signal healthChanged
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
+# MOVEMENT
+@export var max_speed: float = 150
+@export var acceleration : float = 20
+
+
+
+#HEALTH
+@export var maxHealth = 3
+var currentHealth: int = maxHealth
+
 
 func updateAnimation():
 	if velocity.length() == 0:
 		animated_sprite_2d.play("idle_animation")
 	else:
 		animated_sprite_2d.play("walk_animation")
-	
+
+func handleCollision():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		print_debug(collider.name)
+
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -28,6 +44,7 @@ func _physics_process(delta: float) -> void:
 	if direction.x != 0:
 		animated_sprite_2d.flip_h = direction.x < 0
 	
+	handleCollision()
 	updateAnimation()
 
 
@@ -42,3 +59,11 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_hurt_box_area_entered(area: Area2D) -> void:
+	if area.name == "hitBox":
+		currentHealth -= 1
+		if currentHealth < 0:
+			currentHealth = maxHealth
+		healthChanged.emit(currentHealth)
