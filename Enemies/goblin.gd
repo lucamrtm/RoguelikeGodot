@@ -5,6 +5,10 @@ extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
 @onready var player: Player = $"../Player" # caminho para o node do player
+@onready var hit_box: Area2D = $hitBox
+
+const GOBLIN = preload("res://Enemies/goblin.tscn")
+
 
 var startPosition
 var endPosition
@@ -13,6 +17,7 @@ var move_direction
 func _ready() -> void:
 	startPosition = position # startPosition = posição atual do personagem.
 	update_target_position()
+	hit_box.connect("area_entered", Callable(self, "_on_hit_box_area_entered"))
 
 # atualiza endPosition para a posição do jogador
 func update_target_position():
@@ -44,3 +49,20 @@ func _physics_process(delta: float) -> void:
 		animated_sprite_2d.flip_h = move_direction.x < 0
 	
 	update_animation()
+
+func spawnNewGoblin(position : Vector2):
+	var new_goblin = GOBLIN.instantiate() # cria uma nova instância de goblin
+	get_parent().add_child(new_goblin) # adiciona o goblin como filho do mesmo pai
+	new_goblin.position = position 
+
+
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	print("Área entrou:", area.name)
+	if area.name == "attackBox":
+		print("AttackBox detectada! Goblin removido.")
+		queue_free() # Remove o goblin da cena ao ser atingido
+		spawnNewGoblin( get_viewport_rect().size / 2)
+		
+		
+	else:
+		print("Outra área entrou:", area.name)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=28 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://dviv14pj3vejn" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/heroes/knight/knight_run_spritesheet.png" id="1_ecegt"]
@@ -164,6 +164,10 @@ animations = [{
 radius = 5.0
 height = 14.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpkbh"]
+radius = 4.99937
+height = 14.0297
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 position = Vector2(241, 135)
@@ -189,5 +193,13 @@ collision_mask = 3
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_5iujs")
 debug_color = Color(0.784974, 0.394124, 0.483328, 0.42)
+
+[node name="attackBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attackBox"]
+position = Vector2(4, 5)
+rotation = -1.55509
+shape = SubResource("CapsuleShape2D_tpkbh")
+debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)
 
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]

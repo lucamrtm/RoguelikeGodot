@@ -6,6 +6,7 @@ class_name Player
 signal healthChanged
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var attack_box: Area2D = $attackBox
 
 # MOVEMENT
 @export var max_speed: float = 150
@@ -21,7 +22,7 @@ var currentHealth: int = maxHealth
 
 func updateAnimation():
 	if is_attacking:
-		return  # Se o personagem está atacando, não faz nada aqui para não sobrepor a animação.
+		return  # se o personagem está atacando não faz nada aqui pra não sobrepor a animação
 	elif velocity.length() == 0:
 		animated_sprite_2d.play("idle_animation")
 	else:
@@ -43,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	velocity.y= move_toward(velocity.y,max_speed * direction.y,acceleration)
 	move_and_slide()
 	
-	# Flip the sprite based on the direction
+	# muda a direção da sprite de acordo com o movimento
 	if direction.x != 0:
 		animated_sprite_2d.flip_h = direction.x < 0
 	
@@ -56,21 +57,25 @@ func _physics_process(delta: float) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	attack_box.set_collision_layer_value(1, false) # inicializa attackBox como desativada
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):  # "ui_accept" geralmente é mapeado para a barra de espaço
+	if Input.is_action_just_pressed("ui_accept"):  # 
 		attack()
 
 func attack():
-	if not is_attacking:  # Garantir que não vamos interromper um ataque em andamento
+	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
 		is_attacking = true
 		animated_sprite_2d.play("attack_animation")
-		# Usa await em vez de yield para esperar um timer
-		await get_tree().create_timer(0.2).timeout
+		
+		# Ativa a attackBox quando esta atacando, trocando a camada de colisão
+		attack_box.set_collision_layer_value(1, true)
+		
+		await get_tree().create_timer(0.2).timeout # tempo para desligar animação
 		is_attacking = false
+		attack_box.set_collision_layer_value(1, false)
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area.name == "hitBox":
