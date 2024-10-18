@@ -12,8 +12,9 @@ signal healthChanged
 @export var max_speed: float = 150
 @export var acceleration : float = 20
 
-# STATE
+# ATTACK
 var is_attacking: bool = false
+
 
 #HEALTH
 @export var maxHealth = 3
@@ -69,11 +70,11 @@ func attack():
 	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
 		is_attacking = true
 		animated_sprite_2d.play("attack_animation")
-		
-		# Ativa a attackBox quando esta atacando, trocando a camada de colisão
+		# ativa a attackBox quando esta atacando, trocando a camada de colisão
 		attack_box.set_collision_layer_value(1, true)
 		
 		await get_tree().create_timer(0.2).timeout # tempo para desligar animação
+		
 		is_attacking = false
 		attack_box.set_collision_layer_value(1, false)
 
