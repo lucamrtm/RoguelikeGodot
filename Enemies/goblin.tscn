@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://le6748rwxf6b"]
+[gd_scene load_steps=19 format=3 uid="uid://le6748rwxf6b"]
 
 [ext_resource type="Texture2D" uid="uid://cutcnm5txyh5q" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_idle_spritesheet.png" id="1_7g15j"]
+[ext_resource type="Script" path="res://Enemies/goblin.gd" id="1_aimpi"]
 [ext_resource type="Texture2D" uid="uid://cdjctccr4d2y3" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_run_spritesheet.png" id="2_qr4ph"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4npsb"]
@@ -111,6 +112,7 @@ height = 14.0
 [node name="goblin" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_aimpi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ykk2w")
