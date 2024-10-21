@@ -57,6 +57,10 @@ func spawnNewGoblin(position : Vector2):
 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
+	var grupos = area.get_groups()
+	print("Grupos:")
+	for g in grupos:
+		print(g)
 	print("Área entrou:", area.name)
 	if area.name == "attackBox":
 		print("AttackBox detectada! Goblin removido.")

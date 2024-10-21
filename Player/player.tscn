@@ -1,9 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=33 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://cmgwg7labg7fw" path="res://Player/Animation/knight_idle_spritesheet.png" id="2_3ah73"]
 [ext_resource type="Texture2D" uid="uid://besccg3map5y5" path="res://Art/Sprite-0003-Sheet.png" id="2_pjb08"]
 [ext_resource type="Texture2D" uid="uid://dwjcl66vnajf4" path="res://Art/running-Sheet.png" id="4_a20jc"]
+[ext_resource type="Script" path="res://Components/scripts/health_component.gd" id="5_lapc0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igctm"]
 radius = 5.0
@@ -196,7 +197,7 @@ height = 24.0
 radius = 4.99998
 height = 16.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 position = Vector2(241, 135)
 script = ExtResource("1_8lsnq")
@@ -213,6 +214,9 @@ sprite_frames = SubResource("SpriteFrames_njuvg")
 animation = &"idle_animation"
 autoplay = "idle_animation"
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("5_lapc0")
+
 [node name="hurtBox" type="Area2D" parent="."]
 collision_mask = 3
 
@@ -222,9 +226,10 @@ shape = SubResource("CapsuleShape2D_5iujs")
 debug_color = Color(0.784974, 0.394124, 0.483328, 0.42)
 
 [node name="attackBox" type="Area2D" parent="."]
+position = Vector2(3, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attackBox"]
-position = Vector2(14, -4)
+position = Vector2(11, 1)
 rotation = -6.28319
 shape = SubResource("CapsuleShape2D_tpkbh")
 debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)
