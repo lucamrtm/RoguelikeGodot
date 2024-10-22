@@ -16,6 +16,10 @@ run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Constants="*res://constants.gd"
+
 [display]
 
 window/size/viewport_width=480
@@ -85,6 +89,9 @@ left={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="enemy"
+2d_physics/layer_3="ally"
+2d_physics/layer_4="player_bullet"
+2d_physics/layer_5="enemy_bullet"
 
 [rendering]
 

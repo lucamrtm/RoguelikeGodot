@@ -3,10 +3,10 @@
 extends CharacterBody2D
 class_name Player
 
-signal healthChanged
-
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var attack_box: Area2D = $attackBox
+@onready var health: HealthComponent = $HealthComponent
+@onready var hurtbox: HurtboxComponent = $HurtboxComponent
+@onready var hitbox: HitboxComponent = $HitboxComponent
 
 # MOVEMENT
 @export var max_speed: float = 150
@@ -15,26 +15,16 @@ signal healthChanged
 # ATTACK
 var is_attacking: bool = false
 
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	hitbox.set_collision_layer_value(1, false) # inicializa attackBox como desativada
+	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
+	health.died.connect(_on_died)
 
-#HEALTH
-@export var maxHealth = 3
-var currentHealth: int = maxHealth
-
-
-func updateAnimation():
-	if is_attacking:
-		return  # se o personagem está atacando não faz nada aqui pra não sobrepor a animação
-	elif velocity.length() == 0:
-		animated_sprite_2d.play("idle_animation")
-	else:
-		animated_sprite_2d.play("walk_animation")
-
-func handleCollision():
-	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		print_debug(collider.name)
-
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_accept"):  # 
+		attack()
 
 
 func _physics_process(delta: float) -> void:
@@ -53,34 +43,38 @@ func _physics_process(delta: float) -> void:
 	updateAnimation()
 
 
+func handleCollision():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		#print_debug(collider.name)
 
 
+func updateAnimation():
+	if is_attacking:
+		return  # se o personagem está atacando não faz nada aqui pra não sobrepor a animação
+	elif velocity.length() == 0:
+		animated_sprite_2d.play("idle_animation")
+	else:
+		animated_sprite_2d.play("walk_animation")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	attack_box.set_collision_layer_value(1, false) # inicializa attackBox como desativada
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):  # 
-		attack()
 
 func attack():
 	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
 		is_attacking = true
 		animated_sprite_2d.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
-		attack_box.set_collision_layer_value(1, true)
+		hitbox.set_collision_layer_value(1, true)
 		
 		await get_tree().create_timer(0.2).timeout # tempo para desligar animação
 		
 		is_attacking = false
-		attack_box.set_collision_layer_value(1, false)
+		hitbox.set_collision_layer_value(1, false)
 
-func _on_hurt_box_area_entered(area: Area2D) -> void:
-	if area.name == "hitBox":
-		currentHealth -= 1
-		if currentHealth < 0:
-			currentHealth = maxHealth
-		healthChanged.emit(currentHealth)
+
+func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
+	health.damage(hitbox.hitStats.damage)
+
+
+func _on_died() -> void:
+	health.heal(health.maxHealth)

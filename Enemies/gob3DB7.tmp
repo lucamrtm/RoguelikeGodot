@@ -129,6 +129,8 @@ height = 14.0
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_aimpi")
+speed = null
+limit = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ykk2w")
@@ -141,18 +143,14 @@ shape = SubResource("CapsuleShape2D_igy62")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_uj7me")]
 position = Vector2(240.902, 134.942)
-maxHealth = 2
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("5_vi7t2")]
-collision_layer = 2
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("CapsuleShape2D_8cmuq")
 debug_color = Color(0.829776, 0.335805, 0.538468, 0.42)
 
 [node name="HitboxComponent" parent="." instance=ExtResource("6_yqf1k")]
-collision_layer = 2
 hitStats = SubResource("Resource_5exh3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]

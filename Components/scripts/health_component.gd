@@ -2,6 +2,8 @@ extends Node2D
 class_name HealthComponent
 
 signal healthChanged(change)
+signal maxHealthChanged(change)
+signal died
 
 @export var maxHealth: int:
 	set(value):
@@ -15,6 +17,8 @@ var currentHealth: int = maxHealth:
 		currentHealth = clamp(value, 0, maxHealth)
 		if previousHealth != currentHealth:
 			healthChanged.emit(previousHealth-currentHealth)
+		if currentHealth <= 0:
+			died.emit()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
