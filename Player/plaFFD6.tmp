@@ -231,7 +231,7 @@ script = ExtResource("5_lapc0")
 maxHealth = 5
 
 [node name="DashComponent" parent="." instance=ExtResource("6_7hs1c")]
-dash_speed = 500.0
+dash_speed = 20.0
 dash_time = 0.3
 cooldown_time = 0.5
 

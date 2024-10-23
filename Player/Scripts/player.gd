@@ -7,6 +7,7 @@ class_name Player
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var hitbox: HitboxComponent = $HitboxComponent
+@onready var dash: DashComponent = $DashComponent
 
 # MOVEMENT
 @export var max_speed: float = 150
@@ -23,25 +24,37 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):  # 
+	if Input.is_action_just_pressed("attack"):  # 
 		attack()
 
 
 func _physics_process(delta: float) -> void:
-	
-	var direction : Vector2 =Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	
-	velocity.x = move_toward(velocity.x, max_speed * direction.x, acceleration)
-	velocity.y= move_toward(velocity.y,max_speed * direction.y,acceleration)
+	manage_input()
 	move_and_slide()
 	
 	# muda a direção da sprite de acordo com o movimento
-	if direction.x != 0:
-		animated_sprite_2d.flip_h = direction.x < 0
+	if velocity.x != 0:
+		animated_sprite_2d.flip_h = velocity.x < 0
 	
 	handleCollision()
 	updateAnimation()
 
+
+func manage_input() -> void:
+	var direction
+	
+	if !dash.is_dashing():
+		direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	
+	if Input.is_action_just_pressed("dash"):
+		dash.do_dash(direction)
+	
+	if dash.is_dashing():
+		velocity.x = move_toward(velocity.x, dash.dash_speed * dash.dash_direction.x, acceleration)
+		velocity.y = move_toward(velocity.y, dash.dash_speed * dash.dash_direction.y, acceleration)
+	else:
+		velocity.x = move_toward(velocity.x, max_speed * direction.x, acceleration)
+		velocity.y = move_toward(velocity.y, max_speed * direction.y, acceleration)
 
 func handleCollision():
 	for i in get_slide_collision_count():
