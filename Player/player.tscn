@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=34 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://cmgwg7labg7fw" path="res://Player/Animation/knight_idle_spritesheet.png" id="2_3ah73"]
@@ -7,8 +7,6 @@
 [ext_resource type="Script" path="res://Components/scripts/health_component.gd" id="5_lapc0"]
 [ext_resource type="PackedScene" uid="uid://cdv4kihjn484t" path="res://Components/scenes/dash_component.tscn" id="6_7hs1c"]
 [ext_resource type="PackedScene" uid="uid://bo4pdtdxy3dff" path="res://Components/scenes/hurtbox_component.tscn" id="6_53enh"]
-[ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="7_bj23r"]
-[ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="8_18ou4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igctm"]
 radius = 5.0
@@ -197,18 +195,6 @@ animations = [{
 radius = 5.0
 height = 24.0
 
-[sub_resource type="Resource" id="Resource_g2vas"]
-script = ExtResource("8_18ou4")
-damage = 1
-damageType = 0
-knockback = 0.0
-cooldown = 0.0
-can_damage = true
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpkbh"]
-radius = 4.99998
-height = 16.0
-
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 position = Vector2(243, 136)
@@ -242,11 +228,3 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("CapsuleShape2D_5iujs")
 debug_color = Color(0.784974, 0.394124, 0.483328, 0.42)
-
-[node name="HitboxComponent" parent="." instance=ExtResource("7_bj23r")]
-hitStats = SubResource("Resource_g2vas")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(10, 0)
-shape = SubResource("CapsuleShape2D_tpkbh")
-debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)
