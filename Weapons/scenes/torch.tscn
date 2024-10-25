@@ -83,6 +83,7 @@ rotation = 0.261799
 script = ExtResource("1_178hs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(10, -1)
 scale = Vector2(0.292614, 0.292614)
 texture = ExtResource("2_4hrfx")

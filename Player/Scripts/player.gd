@@ -2,6 +2,7 @@
 
 extends CharacterBody2D
 class_name Player
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health: HealthComponent = $HealthComponent
@@ -19,6 +20,8 @@ var weapon: Weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	animation_player.animation_finished.connect(_on_animation_finished)
+
 	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
 	health.died.connect(_on_died)
 
@@ -60,24 +63,31 @@ func handleCollision():
 		var collider = collision.get_collider()
 		#print_debug(collider.name)
 
+func _on_animation_finished(anim_name: String) -> void:
+	# Verifica se a animação que terminou foi a de ataque
+	if anim_name == "attack_animation":
+		is_attacking = false
+		# Agora que o ataque terminou, muda para a animação idle
+		animation_player.play("idle_animation")
+
 
 func updateAnimation():
 	if is_attacking:
 		return  # se o personagem está atacando não faz nada aqui pra não sobrepor a animação
 	elif velocity.length() == 0:
-		animated_sprite_2d.play("idle_animation")
+		animation_player.play("idle_animation")
 	else:
-		animated_sprite_2d.play("walk_animation")
+		animation_player.play("walk_animation")
 
 
 func attack():
 	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
 		is_attacking = true
-		animated_sprite_2d.play("attack_animation")
+		animation_player.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
 		if weapon:
 			weapon.use()
-		is_attacking = false
+		
 
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
