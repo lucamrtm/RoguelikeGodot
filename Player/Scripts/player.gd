@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	manage_input()
 	move_and_slide()
 	
-	animated_sprite_2d.flip_h = abs(get_angle_to(get_global_mouse_position())) > 1.5
+	scale.x = -1 if abs(get_angle_to(get_global_mouse_position())) > 1.5 else 1
 	
 	handleCollision()
 	updateAnimation()
@@ -75,7 +75,7 @@ func updateAnimation():
 	if is_attacking:
 		return  # se o personagem está atacando não faz nada aqui pra não sobrepor a animação
 	elif velocity.length() == 0:
-		animation_player.play("idle_animation")
+		animation_player.play("idle_torch_animation")
 	else:
 		animation_player.play("walk_animation")
 
