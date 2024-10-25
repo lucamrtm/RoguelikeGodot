@@ -3,6 +3,7 @@
 extends CharacterBody2D
 class_name Player
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var torch: Node2D = $"../../WeaponManager/Torch"
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health: HealthComponent = $HealthComponent
@@ -39,6 +40,9 @@ func _physics_process(delta: float) -> void:
 	
 	handleCollision()
 	updateAnimation()
+	
+	#if direction != Vector2.ZERO:
+		#torch.setup_direction nao ta achando aqui
 
 
 func manage_input() -> void:
@@ -86,7 +90,7 @@ func attack():
 		animation_player.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
 		if weapon:
-			weapon.use()
+			weapon.shoot()
 		
 
 

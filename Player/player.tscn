@@ -452,6 +452,8 @@ _data = {
 z_index = 1
 position = Vector2(243, 136)
 script = ExtResource("1_8lsnq")
+max_speed = null
+acceleration = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1

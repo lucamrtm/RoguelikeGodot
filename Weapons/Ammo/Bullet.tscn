@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnxc2vr8m1kbt"]
+
+[ext_resource type="Script" path="res://Weapons/Ammo/bullet.gd" id="1_k1i6j"]
+[ext_resource type="Texture2D" uid="uid://bq3ywiq2obk3u" path="res://Art/Guns/flashbang.png" id="2_uf0cb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kcver"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_uf0cb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_db8ix"]
+radius = 1.0
+height = 4.0
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_k1i6j")
+
+[node name="Bullet" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.38419e-07, 3.8147e-06)
+scale = Vector2(0.06, 0.06)
+sprite_frames = SubResource("SpriteFrames_kcver")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -2)
+shape = SubResource("CapsuleShape2D_db8ix")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

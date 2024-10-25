@@ -195,6 +195,8 @@ layer_0/tile_data = PackedInt32Array(983059, 393216, 2, 458772, 458752, 1, 52430
 
 [node name="Player" parent="TileMap" instance=ExtResource("1_03suu")]
 position = Vector2(453, 227)
+max_speed = 150.0
+acceleration = 20.0
 
 [node name="goblin" parent="TileMap" instance=ExtResource("3_wk2ej")]
 position = Vector2(432, 217)
