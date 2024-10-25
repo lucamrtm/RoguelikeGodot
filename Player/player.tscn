@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=50 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://cuwwy12d7yktr" path="res://Player/Animation/Strike-Sheet.png" id="2_lcvn3"]
@@ -228,43 +228,38 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yimwx")
 }],
-"loop": false,
+"loop": true,
 "name": &"walk_animation",
 "speed": 10.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_o38yd"]
+offsets = PackedFloat32Array(0, 0.486577, 0.983221)
+colors = PackedColorArray(0.900531, 0.778593, 0.337741, 0.996078, 1, 0.384993, 0.171174, 0.996078, 0.2, 0.2, 0.2, 0.568627)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jogug"]
+gradient = SubResource("Gradient_o38yd")
+
+[sub_resource type="Curve" id="Curve_k3qwd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_80t5a"]
+curve = SubResource("Curve_k3qwd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aig21"]
+particle_flag_disable_z = true
+gravity = Vector3(0, -98, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_80t5a")
+color_ramp = SubResource("GradientTexture1D_jogug")
+turbulence_enabled = true
+turbulence_noise_scale = 0.912
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5iujs"]
 radius = 5.0
 height = 24.0
-
-[sub_resource type="Animation" id="Animation_k5ehl"]
-resource_name = "idle_animation"
-length = 1.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle_animation"]
-}
 
 [sub_resource type="Animation" id="Animation_w6n7c"]
 length = 0.001
@@ -303,7 +298,7 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.06667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -321,8 +316,9 @@ tracks/1/keys = {
 "values": [&"attack_animation"]
 }
 
-[sub_resource type="Animation" id="Animation_gs3ym"]
-resource_name = "walk_animation"
+[sub_resource type="Animation" id="Animation_k5ehl"]
+resource_name = "idle_animation"
+length = 1.1
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -331,7 +327,36 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle_animation"]
+}
+
+[sub_resource type="Animation" id="Animation_gs3ym"]
+resource_name = "walk_animation"
+length = 1.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0931496, 0.205189, 0.301486, 0.402507, 0.503527, 0.599825, 0.703993, 0.806587, 0.904459, 1.00076),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -368,11 +393,19 @@ position = Vector2(0, -5.24521e-06)
 shape = SubResource("CapsuleShape2D_igctm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(5.24521e-06, -2.00001)
 scale = Vector2(0.423828, 0.439453)
 sprite_frames = SubResource("SpriteFrames_njuvg")
 animation = &"walk_animation"
 autoplay = "idle_animation"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
+texture_filter = 1
+position = Vector2(14.1567, 2.27559)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_aig21")
+trail_lifetime = 0.01
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_lapc0")
