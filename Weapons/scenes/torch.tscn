@@ -1,72 +1,23 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3onktb47ombf"]
+[gd_scene load_steps=9 format=3 uid="uid://c3onktb47ombf"]
 
 [ext_resource type="Script" path="res://Weapons/scripts/torch.gd" id="1_178hs"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="1_a7sse"]
-[ext_resource type="Texture2D" uid="uid://dic7gjyrikhaa" path="res://Art/torch.png" id="2_4hrfx"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="2_bhd1e"]
-
-[sub_resource type="Resource" id="Resource_g2vas"]
-script = ExtResource("2_bhd1e")
-damage = 1
-damageType = 0
-knockback = 0.0
-cooldown = 0.3
-can_damage = true
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpkbh"]
-radius = 3.0
-height = 16.0
 
 [sub_resource type="Animation" id="Animation_jrdr4"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D/HitboxComponent/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_adkim"]
 resource_name = "slash"
-length = 0.4
+length = 1.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/path = NodePath("HitboxComponent/CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.233333, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0.0, -0.523599, 2.61799, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D/HitboxComponent/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.266667),
+"times": PackedFloat32Array(0.8, 1.06667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -78,29 +29,36 @@ _data = {
 "slash": SubResource("Animation_adkim")
 }
 
-[node name="Torch" type="Node2D"]
-rotation = 0.261799
+[sub_resource type="Resource" id="Resource_g2vas"]
+script = ExtResource("2_bhd1e")
+damage = 1
+damageType = 0
+knockback = 0.0
+cooldown = 0.3
+can_damage = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpkbh"]
+radius = 7.27912
+height = 20.3538
+
+[node name="Torch" type="Node2D" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_178hs")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(10, -1)
-scale = Vector2(0.292614, 0.292614)
-texture = ExtResource("2_4hrfx")
-offset = Vector2(0, -20)
-
-[node name="HitboxComponent" parent="Sprite2D" instance=ExtResource("1_a7sse")]
-position = Vector2(-0.516967, -16.2152)
-scale = Vector2(3.41748, 3.41748)
-hitStats = SubResource("Resource_g2vas")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitboxComponent"]
-position = Vector2(-6.17072e-08, 2.46542e-07)
-shape = SubResource("CapsuleShape2D_tpkbh")
-disabled = true
-debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)
+animation_player = NodePath("AnimationPlayer")
+animation_name = "attack_animation"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_m4a1k")
 }
+
+[node name="HitboxComponent" parent="." instance=ExtResource("1_a7sse")]
+position = Vector2(-4.76837e-07, -9.53674e-07)
+scale = Vector2(1, 1)
+hitStats = SubResource("Resource_g2vas")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(9.99999, 7.15256e-07)
+rotation = 3.14159
+shape = SubResource("CapsuleShape2D_tpkbh")
+disabled = true
+debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)

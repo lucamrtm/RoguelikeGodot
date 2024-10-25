@@ -1,8 +1,6 @@
 extends Weapon
 
-@onready var sprite = $Sprite2D
-@onready var hitbox = $Sprite2D/HitboxComponent
-@onready var animation = $AnimationPlayer
+@onready var hitbox = $HitboxComponent
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,5 +16,5 @@ func _physics_process(delta: float) -> void:
 	look_at(get_global_mouse_position())
 
 
-func use() -> void:
-	animation.play("slash")
+func use(direction: Vector2) -> void:
+	animation_player.play("slash")
