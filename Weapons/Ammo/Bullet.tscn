@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://cnxc2vr8m1kbt"]
+[gd_scene load_steps=31 format=3 uid="uid://cnxc2vr8m1kbt"]
 
 [ext_resource type="Script" path="res://Weapons/Ammo/bullet.gd" id="1_k1i6j"]
 [ext_resource type="Texture2D" uid="uid://dp3spg2lkysd" path="res://Art/Projectile/fire-projectile2-Sheet.png" id="2_5wipt"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="3_1j4ha"]
+[ext_resource type="Texture2D" uid="uid://cbsc8n7vcms8h" path="res://Art/Projectile/fire-projectile-Sheet3.png" id="3_k707d"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="4_umjfx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nd1p7"]
@@ -45,6 +46,46 @@ region = Rect2(512, 0, 64, 64)
 atlas = ExtResource("2_5wipt")
 region = Rect2(576, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2g1jk"]
+atlas = ExtResource("3_k707d")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0880t"]
+atlas = ExtResource("3_k707d")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uas7r"]
+atlas = ExtResource("3_k707d")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrf51"]
+atlas = ExtResource("3_k707d")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dskgy"]
+atlas = ExtResource("3_k707d")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3v13"]
+atlas = ExtResource("3_k707d")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ert2"]
+atlas = ExtResource("3_k707d")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4255"]
+atlas = ExtResource("3_k707d")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tso2j"]
+atlas = ExtResource("3_k707d")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgjtg"]
+atlas = ExtResource("3_k707d")
+region = Rect2(576, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_kcver"]
 animations = [{
 "frames": [{
@@ -81,7 +122,51 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2g1jk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0880t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uas7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrf51")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dskgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3v13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ert2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4255")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tso2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgjtg")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_0gc56"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_chv5b"]
+gradient = SubResource("Gradient_0gc56")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="Resource" id="Resource_g78q0"]
 script = ExtResource("4_umjfx")
@@ -108,8 +193,18 @@ visibility_layer = 2
 position = Vector2(-1, 0)
 scale = Vector2(0.455, 0.455)
 sprite_frames = SubResource("SpriteFrames_kcver")
-autoplay = "default"
-frame_progress = 0.741744
+animation = &"new_animation"
+autoplay = "new_animation"
+frame_progress = 0.293927
+
+[node name="PointLight2D" type="PointLight2D" parent="Bullet"]
+position = Vector2(0, -4.39561)
+scale = Vector2(2.33516, 2.33516)
+color = Color(0.981995, 0.566936, 0.148718, 1)
+energy = 0.5
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_chv5b")
+height = 1.0
 
 [node name="HitboxComponent" parent="." instance=ExtResource("3_1j4ha")]
 collision_layer = 2

@@ -458,7 +458,7 @@ position = Vector2(5.24521e-06, -2.00001)
 scale = Vector2(0.423828, 0.439453)
 sprite_frames = SubResource("SpriteFrames_njuvg")
 animation = &"walk_animation"
-autoplay = "idle_animation"
+autoplay = "idle_torch_animation"
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_lapc0")

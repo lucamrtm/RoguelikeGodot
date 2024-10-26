@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bij3bajd0p1jx"]
+[gd_scene load_steps=12 format=3 uid="uid://bij3bajd0p1jx"]
 
 [ext_resource type="PackedScene" uid="uid://dj3ggh021hynw" path="res://Player/player.tscn" id="1_03suu"]
 [ext_resource type="Script" path="res://game.gd" id="1_cxgh8"]
@@ -179,6 +179,15 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_585s3")
 
+[sub_resource type="Gradient" id="Gradient_ssse4"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jb6wi"]
+gradient = SubResource("Gradient_ssse4")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Game" type="Node2D"]
 position = Vector2(1, 1)
 scale = Vector2(2, 2)
@@ -195,6 +204,12 @@ layer_0/tile_data = PackedInt32Array(983059, 393216, 2, 458772, 458752, 1, 52430
 
 [node name="Player" parent="TileMap" instance=ExtResource("1_03suu")]
 position = Vector2(453, 227)
+
+[node name="PointLight2D" type="PointLight2D" parent="TileMap/Player"]
+position = Vector2(3.5, 11.5)
+scale = Vector2(1.1084, 1.08301)
+color = Color(0.981995, 0.566936, 0.148718, 1)
+texture = SubResource("GradientTexture2D_jb6wi")
 
 [node name="goblin" parent="TileMap" instance=ExtResource("3_wk2ej")]
 position = Vector2(432, 217)
@@ -218,3 +233,7 @@ starting_weapon = NodePath("Torch")
 max_unequiped_weapons = 1
 
 [node name="Torch" parent="WeaponManager" instance=ExtResource("7_mkach")]
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+energy = 0.4
+blend_mode = 1
