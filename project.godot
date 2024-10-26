@@ -99,9 +99,9 @@ attack={
 
 [layer_names]
 
-2d_physics/layer_1="player"
-2d_physics/layer_2="enemy"
-2d_physics/layer_3="ally"
+2d_physics/layer_1="game_world"
+2d_physics/layer_2="player"
+2d_physics/layer_3="enemy"
 2d_physics/layer_4="player_bullet"
 2d_physics/layer_5="enemy_bullet"
 

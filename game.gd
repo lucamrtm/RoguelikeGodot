@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var camera = $Camera
-@onready var player = $TileMap/Player
+@onready var player = $Player
 @onready var hearts_container = $CanvasLayer/heartsContainer
 @onready var weapon_manager = $WeaponManager
 

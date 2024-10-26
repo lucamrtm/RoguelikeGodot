@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Weapons/scripts/torch.gd" id="1_178hs"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="1_a7sse"]
-[ext_resource type="Texture2D" uid="uid://dic7gjyrikhaa" path="res://Art/torch.png" id="2_4hrfx"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="2_bhd1e"]
+[ext_resource type="Texture2D" uid="uid://bq3ywiq2obk3u" path="res://Art/Guns/flashbang.png" id="2_w1dex"]
 
 [sub_resource type="Resource" id="Resource_g2vas"]
 script = ExtResource("2_bhd1e")
@@ -79,13 +79,17 @@ _data = {
 }
 
 [node name="Torch" type="Node2D"]
-rotation = 0.261799
+light_mask = 3
+visibility_layer = 3
 script = ExtResource("1_178hs")
 
+[node name="Marker2D" type="Marker2D" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(10, -1)
 scale = Vector2(0.292614, 0.292614)
-texture = ExtResource("2_4hrfx")
+texture = ExtResource("2_w1dex")
 offset = Vector2(0, -20)
 
 [node name="HitboxComponent" parent="Sprite2D" instance=ExtResource("1_a7sse")]
@@ -103,3 +107,7 @@ debug_color = Color(0.508186, 0.166467, 0.812612, 0.42)
 libraries = {
 "": SubResource("AnimationLibrary_m4a1k")
 }
+
+[node name="ShootSpeedTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ShootSpeedTimer" to="." method="_on_shoot_speed_timer_timeout"]
