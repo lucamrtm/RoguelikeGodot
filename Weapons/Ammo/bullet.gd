@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 @export var speed = 200
 @export var damage = 1
@@ -23,6 +23,11 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_hitbox_component_body_entered(body: Node2D) -> void:
 	print("Colisão detectada com: ", body.name, " (tipo: ", body.get_class(), ")")
-	if body.name == "goblin":
-		print("Goblin toma 1 de dano")
+	if body is TileMapLayer:
 		queue_free()
+
+func _on_hitbox_component_area_entered(area: Area2D) -> void:
+	if area is HurtboxComponent:
+		queue_free()
+
+	
