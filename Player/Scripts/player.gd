@@ -16,6 +16,7 @@ class_name Player
 @export var acceleration : float = 20
 
 # ATTACK
+var direction : Vector2 = Vector2.ZERO
 var is_attacking: bool = false
 var weapon: Weapon
 
@@ -28,8 +29,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("attack"):  # 
-		attack()
+	pass
 
 
 func _physics_process(delta: float) -> void:
@@ -41,8 +41,14 @@ func _physics_process(delta: float) -> void:
 	handleCollision()
 	updateAnimation()
 	
-	#if direction != Vector2.ZERO:
-		#torch.setup_direction nao ta achando aqui
+	var mouse_position = get_global_mouse_position()
+	var direction = (mouse_position - global_position).normalized()
+	
+	
+	if Input.is_action_just_pressed("attack"):  # 
+		attack()
+	if direction != Vector2.ZERO:
+		torch.setup_direction(direction)
 
 
 func manage_input() -> void:
