@@ -206,8 +206,8 @@ layer_0/tile_data = PackedInt32Array(983059, 393216, 2, 458772, 458752, 1, 52430
 position = Vector2(453, 227)
 
 [node name="PointLight2D" type="PointLight2D" parent="TileMap/Player"]
-position = Vector2(3.5, 11.5)
-scale = Vector2(1.1084, 1.08301)
+position = Vector2(3.5, 14)
+scale = Vector2(1.1084, 0.932129)
 color = Color(0.981995, 0.566936, 0.148718, 1)
 texture = SubResource("GradientTexture2D_jb6wi")
 
