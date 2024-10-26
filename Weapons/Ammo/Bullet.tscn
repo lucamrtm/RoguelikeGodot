@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnxc2vr8m1kbt"]
+[gd_scene load_steps=8 format=3 uid="uid://cnxc2vr8m1kbt"]
 
 [ext_resource type="Script" path="res://Weapons/Ammo/bullet.gd" id="1_k1i6j"]
 [ext_resource type="Texture2D" uid="uid://bq3ywiq2obk3u" path="res://Art/Guns/flashbang.png" id="2_uf0cb"]
+[ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="3_1j4ha"]
+[ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="4_umjfx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kcver"]
 animations = [{
@@ -14,20 +16,42 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_g78q0"]
+script = ExtResource("4_umjfx")
+damage = 1
+damageType = 0
+knockback = 0.0
+cooldown = 0.0
+can_damage = true
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_db8ix"]
 radius = 1.0
 height = 4.0
 
 [node name="Bullet" type="Area2D"]
+light_mask = 2
+visibility_layer = 2
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_k1i6j")
 
 [node name="Bullet" type="AnimatedSprite2D" parent="."]
-position = Vector2(2.38419e-07, 3.8147e-06)
-scale = Vector2(0.06, 0.06)
+light_mask = 2
+visibility_layer = 2
+position = Vector2(-1, 0)
+scale = Vector2(0.08, 0.08)
 sprite_frames = SubResource("SpriteFrames_kcver")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitboxComponent" parent="." instance=ExtResource("3_1j4ha")]
+collision_layer = 2
+collision_mask = 2
+hitStats = SubResource("Resource_g78q0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+light_mask = 2
+visibility_layer = 2
 position = Vector2(1, -2)
 shape = SubResource("CapsuleShape2D_db8ix")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]

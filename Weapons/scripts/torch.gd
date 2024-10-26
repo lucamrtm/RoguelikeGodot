@@ -8,6 +8,7 @@ const BULLET = preload("res://Weapons/Ammo/Bullet.tscn")
 @onready var animation = $AnimationPlayer
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var shoot_speed_timer: Timer = $ShootSpeedTimer
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
 var canShoot = true
 var bulletDirection = Vector2(1,0)

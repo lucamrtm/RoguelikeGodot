@@ -5,9 +5,9 @@ extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
 @onready var player: Player = $"../Player" # caminho para o node do player
-@onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var hitbox: HitboxComponent = $HitboxComponent
+@onready var health_component: HealthComponent = $HealthComponent
 
 const GOBLIN = preload("res://Enemies/goblin.tscn")
 
@@ -19,7 +19,7 @@ func _ready() -> void:
 	startPosition = position # startPosition = posição atual do personagem.
 	update_target_position()
 	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
-	health.died.connect(_on_died)
+	health_component.died.connect(_on_died)
 
 
 # atualiza endPosition para a posição do jogador
@@ -61,7 +61,7 @@ func spawnNewGoblin(position : Vector2):
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 	print("Hitbox atacando o goblin! Goblin sofreu dano.")
-	health.damage(hitbox.hitStats.damage)
+	health_component.damage(hitbox.hitStats.damage)
 
 
 func _on_died() -> void:

@@ -79,6 +79,8 @@ _data = {
 }
 
 [node name="Torch" type="Node2D"]
+light_mask = 3
+visibility_layer = 3
 script = ExtResource("1_178hs")
 
 [node name="Marker2D" type="Marker2D" parent="."]

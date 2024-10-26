@@ -18,5 +18,12 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.name == "HitboxComponent":
-		print("toma dano")
+	pass
+
+
+func _on_hitbox_component_body_entered(body: Node2D) -> void:
+	print("Colisão detectada com: ", body.name, " (tipo: ", body.get_class(), ")")
+	if body.name == "goblin":
+		print("Goblin toma 1 de dano")
+		queue_free()
+		

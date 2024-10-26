@@ -76,6 +76,7 @@ func handleCollision():
 func _on_animation_finished(anim_name: String) -> void:
 	# Verifica se a animação que terminou foi a de ataque
 	if anim_name == "attack_animation":
+		weapon.shoot()
 		is_attacking = false
 		# Agora que o ataque terminou, muda para a animação idle
 		animation_player.play("idle_animation")
@@ -95,8 +96,8 @@ func attack():
 		is_attacking = true
 		animation_player.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
-		if weapon:
-			weapon.shoot()
+		
+		
 		
 
 
