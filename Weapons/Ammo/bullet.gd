@@ -17,8 +17,7 @@ func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
 
 
-func _on_body_entered(body: Node2D) -> void:
-	pass
+
 
 
 func _on_hitbox_component_body_entered(body: Node2D) -> void:

@@ -62,3 +62,7 @@ func setup_direction(direction):
 	elif direction.y > 0:
 		scale.x = 1
 		rotation_degrees = 90
+
+
+func _on_hitbox_component_body_entered(body: Node2D) -> void:
+	queue_free()

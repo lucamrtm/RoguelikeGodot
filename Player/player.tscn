@@ -454,7 +454,6 @@ shape = SubResource("CapsuleShape2D_igctm")
 debug_color = Color(0.141196, 0.589545, 0.7, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
 position = Vector2(5.24521e-06, -2.00001)
 scale = Vector2(0.423828, 0.439453)
 sprite_frames = SubResource("SpriteFrames_njuvg")

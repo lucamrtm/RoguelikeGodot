@@ -1,19 +1,86 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnxc2vr8m1kbt"]
+[gd_scene load_steps=18 format=3 uid="uid://cnxc2vr8m1kbt"]
 
 [ext_resource type="Script" path="res://Weapons/Ammo/bullet.gd" id="1_k1i6j"]
-[ext_resource type="Texture2D" uid="uid://bq3ywiq2obk3u" path="res://Art/Guns/flashbang.png" id="2_uf0cb"]
+[ext_resource type="Texture2D" uid="uid://dp3spg2lkysd" path="res://Art/Projectile/fire-projectile2-Sheet.png" id="2_5wipt"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="3_1j4ha"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="4_umjfx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nd1p7"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kred2"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpdus"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o88vc"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obb5r"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y4bt"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hspdw"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl124"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwkjf"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pawb"]
+atlas = ExtResource("2_5wipt")
+region = Rect2(576, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kcver"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_uf0cb")
+"texture": SubResource("AtlasTexture_nd1p7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kred2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpdus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o88vc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obb5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y4bt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hspdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bl124")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwkjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pawb")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 11.0
 }]
 
 [sub_resource type="Resource" id="Resource_g78q0"]
@@ -25,8 +92,8 @@ cooldown = 0.0
 can_damage = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_db8ix"]
-radius = 1.0
-height = 4.0
+radius = 4.0
+height = 8.0
 
 [node name="Bullet" type="Area2D"]
 light_mask = 2
@@ -39,8 +106,10 @@ script = ExtResource("1_k1i6j")
 light_mask = 2
 visibility_layer = 2
 position = Vector2(-1, 0)
-scale = Vector2(0.08, 0.08)
+scale = Vector2(0.455, 0.455)
 sprite_frames = SubResource("SpriteFrames_kcver")
+autoplay = "default"
+frame_progress = 0.741744
 
 [node name="HitboxComponent" parent="." instance=ExtResource("3_1j4ha")]
 collision_layer = 2
@@ -50,7 +119,7 @@ hitStats = SubResource("Resource_g78q0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(1, -2)
+position = Vector2(-2, -2)
 shape = SubResource("CapsuleShape2D_db8ix")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
