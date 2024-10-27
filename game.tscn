@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bij3bajd0p1jx"]
+[gd_scene load_steps=10 format=3 uid="uid://bij3bajd0p1jx"]
 
 [ext_resource type="PackedScene" uid="uid://dj3ggh021hynw" path="res://Player/player.tscn" id="1_03suu"]
 [ext_resource type="Script" path="res://game.gd" id="1_cxgh8"]
@@ -7,6 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://b3fhwhswncvud" path="res://Gui/hearts_container.tscn" id="5_32hsr"]
 [ext_resource type="Script" path="res://weapon_manager.gd" id="6_1654i"]
 [ext_resource type="PackedScene" uid="uid://c3onktb47ombf" path="res://Weapons/scenes/torch.tscn" id="7_mkach"]
+
+[sub_resource type="Gradient" id="Gradient_0gc56"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_opsdu"]
+gradient = SubResource("Gradient_0gc56")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D"]
 position = Vector2(1, 1)
@@ -20,6 +29,14 @@ position_smoothing_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_03suu")]
 position = Vector2(91, 63)
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+position = Vector2(5, 10.5)
+scale = Vector2(1.62071, 1.30821)
+color = Color(0.981995, 0.566936, 0.148718, 1)
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_opsdu")
+height = 1.0
 
 [node name="goblin" parent="." instance=ExtResource("3_wk2ej")]
 position = Vector2(70, 53)
@@ -45,5 +62,6 @@ max_unequiped_weapons = 1
 [node name="Torch" parent="WeaponManager" instance=ExtResource("7_mkach")]
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
-energy = 0.4
+position = Vector2(42.5, -3.5)
+energy = 0.3
 blend_mode = 1
