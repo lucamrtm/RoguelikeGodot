@@ -96,9 +96,6 @@ func attack():
 		is_attacking = true
 		animation_player.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
-		
-		
-		
 
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:

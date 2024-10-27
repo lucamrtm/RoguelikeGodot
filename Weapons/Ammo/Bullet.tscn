@@ -180,11 +180,9 @@ can_damage = true
 radius = 4.0
 height = 8.0
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Node2D"]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 2
-collision_mask = 2
 script = ExtResource("1_k1i6j")
 
 [node name="Bullet" type="AnimatedSprite2D" parent="."]
@@ -208,7 +206,7 @@ height = 1.0
 
 [node name="HitboxComponent" parent="." instance=ExtResource("3_1j4ha")]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 5
 hitStats = SubResource("Resource_g78q0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
@@ -217,5 +215,5 @@ visibility_layer = 2
 position = Vector2(-2, -2)
 shape = SubResource("CapsuleShape2D_db8ix")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
 [connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]

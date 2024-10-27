@@ -87,8 +87,6 @@ shootSpeed = 5.0
 [node name="Marker2D" type="Marker2D" parent="."]
 rotation = -0.261799
 
-[node name="Marker2D" type="Marker2D" parent="."]
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(10, -1)
