@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("attack"):  # 
 		attack()
 	if direction != Vector2.ZERO:
-		torch.setup_direction(direction)
+		weapon.setup_direction(direction)
 
 
 func manage_input() -> void:

@@ -26,3 +26,8 @@ func _on_hitbox_component_body_entered(body: Node2D) -> void:
 		print("Goblin toma 1 de dano")
 		queue_free()
 		
+		
+
+
+func _on_hitbox_component_area_entered(area: Area2D) -> void:
+	queue_free()
