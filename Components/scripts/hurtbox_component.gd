@@ -2,6 +2,7 @@ extends Area2D
 class_name HurtboxComponent
 
 signal hit_by_hitbox(hitbox: HitboxComponent)
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 @export var canGetHit: bool
 
@@ -21,6 +22,11 @@ func _process(delta: float) -> void:
 func can_accept_collision() -> bool:
 	return canGetHit
 
+func disable_collision():
+	collision_shape_2d.disabled = true
+	
+func enable_collision():
+	collision_shape_2d.disabled = false
 
 func _on_area_entered(hitbox: HitboxComponent) -> void:
 	if hitbox:

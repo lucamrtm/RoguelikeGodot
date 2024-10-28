@@ -5,11 +5,15 @@ class_name Player
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 #@onready var torch: Node2D = $"../../WeaponManager/Torch"
 
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var hitbox: HitboxComponent = $Weapon/HitboxComponent
 @onready var dash: DashComponent = $DashComponent
+@onready var player: Player = $"."
+@onready var game_over: Control = $EndScreen/GameOver
 
 # MOVEMENT
 @export var max_speed: float = 150
@@ -19,6 +23,10 @@ class_name Player
 var direction : Vector2 = Vector2.ZERO
 var is_attacking: bool = false
 var weapon: Weapon
+
+# VIDA
+var is_dead: bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,6 +41,9 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return  # Se o jogador está morto, ignora o movimento
+	
 	manage_input()
 	move_and_slide()
 	
@@ -55,12 +66,16 @@ func manage_input() -> void:
 	var direction
 	
 	if !dash.is_dashing():
+		hurtbox.enable_collision()
+		collision_shape_2d.disabled = false
 		direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	if Input.is_action_just_pressed("dash"):
 		dash.do_dash(direction)
 	
 	if dash.is_dashing():
+		hurtbox.disable_collision()
+		collision_shape_2d.disabled = true
 		velocity.x = move_toward(velocity.x, dash.dash_speed * dash.dash_direction.x, acceleration)
 		velocity.y = move_toward(velocity.y, dash.dash_speed * dash.dash_direction.y, acceleration)
 	else:
@@ -103,4 +118,6 @@ func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 
 
 func _on_died() -> void:
-	health.heal(health.maxHealth)
+	game_over.show_game_over_lose()
+	is_dead = true
+	animation_player.play("idle_animation")

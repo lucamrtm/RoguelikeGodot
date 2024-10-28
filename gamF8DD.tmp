@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bij3bajd0p1jx"]
+[gd_scene load_steps=14 format=3 uid="uid://bij3bajd0p1jx"]
 
 [ext_resource type="PackedScene" uid="uid://dj3ggh021hynw" path="res://Player/player.tscn" id="1_03suu"]
 [ext_resource type="Script" path="res://game.gd" id="1_cxgh8"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://c3onktb47ombf" path="res://Weapons/scenes/torch.tscn" id="7_mkach"]
 [ext_resource type="PackedScene" uid="uid://cacp8md2xgjde" path="res://Utility/enemy_spawner.tscn" id="8_xcd6q"]
 [ext_resource type="Script" path="res://Utility/spawn_info.gd" id="9_l47h6"]
-[ext_resource type="Script" path="res://Utility/End Game/EndGame.gd" id="11_2v0m4"]
 
 [sub_resource type="Gradient" id="Gradient_0gc56"]
 offsets = PackedFloat32Array(0, 0.775758)
@@ -40,7 +39,7 @@ script = ExtResource("1_cxgh8")
 position_smoothing_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_03suu")]
-position = Vector2(9, 174.5)
+position = Vector2(91, 63)
 
 [node name="PointLight2D" type="PointLight2D" parent="Player"]
 position = Vector2(5, 10.5)
@@ -49,43 +48,6 @@ color = Color(0.981995, 0.566936, 0.148718, 1)
 range_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_opsdu")
 height = 1.0
-
-[node name="EndScreen" type="CanvasLayer" parent="Player"]
-
-[node name="GameOver" type="Control" parent="Player/EndScreen"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("11_2v0m4")
-metadata/_edit_use_anchors_ = true
-
-[node name="Vitória" type="Label" parent="Player/EndScreen/GameOver"]
-layout_mode = 0
-offset_left = 122.0
-offset_top = 141.0
-offset_right = 372.0
-offset_bottom = 164.0
-text = "Parabéns! Você derrotou o Boss!"
-
-[node name="Derrota" type="Label" parent="Player/EndScreen/GameOver"]
-layout_mode = 0
-offset_left = 177.0
-offset_top = 195.0
-offset_right = 320.0
-offset_bottom = 230.0
-theme_override_font_sizes/font_size = 25
-text = "Game over"
-uppercase = true
-
-[node name="Derrota2" type="Label" parent="Player/EndScreen/GameOver/Derrota"]
-layout_mode = 0
-offset_left = 19.0
-offset_top = 29.0
-offset_right = 269.0
-offset_bottom = 52.0
-text = "Você Morreu.
-"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -109,10 +71,8 @@ script = ExtResource("6_oo5gl")
 
 [node name="Score" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 158.0
-offset_bottom = 31.0
+offset_right = 40.0
+offset_bottom = 23.0
 text = "Inimigos restantes:"
 
 [node name="WeaponManager" type="Node" parent="." node_paths=PackedStringArray("starting_weapon")]
@@ -129,4 +89,3 @@ blend_mode = 1
 
 [node name="EnemySpawner" parent="." instance=ExtResource("8_xcd6q")]
 spawns = Array[ExtResource("9_l47h6")]([SubResource("Resource_21gy3")])
-maxEnemies = 5

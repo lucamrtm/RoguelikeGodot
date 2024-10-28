@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://le6748rwxf6b"]
+[gd_scene load_steps=27 format=3 uid="uid://le6748rwxf6b"]
 
 [ext_resource type="Texture2D" uid="uid://cutcnm5txyh5q" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_idle_spritesheet.png" id="1_7g15j"]
 [ext_resource type="Script" path="res://Enemies/goblin.gd" id="1_aimpi"]
@@ -105,6 +105,15 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_8itv0"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m2761"]
+gradient = SubResource("Gradient_8itv0")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igy62"]
 radius = 4.0
 height = 12.0
@@ -135,13 +144,31 @@ sprite_frames = SubResource("SpriteFrames_ykk2w")
 animation = &"idle"
 frame_progress = 0.88171
 
+[node name="LuzOlhos1" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(0.545, -0.53)
+scale = Vector2(0.04, 0.04)
+color = Color(0.026014, 0.957764, 0.981995, 1)
+energy = 2.59
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_m2761")
+height = 1.0
+
+[node name="LuzOlhos2" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(3.52, -0.54)
+scale = Vector2(0.04, 0.04)
+color = Color(0.026014, 0.957764, 0.981995, 1)
+energy = 2.59
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_m2761")
+height = 1.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
 shape = SubResource("CapsuleShape2D_igy62")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_uj7me")]
 position = Vector2(240.902, 134.942)
-maxHealth = 4
+maxHealth = 2
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("5_vi7t2")]
 light_mask = 2
