@@ -1,10 +1,19 @@
-[gd_scene load_steps=31 format=3 uid="uid://cnxc2vr8m1kbt"]
+[gd_scene load_steps=32 format=3 uid="uid://cnxc2vr8m1kbt"]
 
 [ext_resource type="Script" path="res://Weapons/Ammo/bullet.gd" id="1_k1i6j"]
 [ext_resource type="Texture2D" uid="uid://dp3spg2lkysd" path="res://Art/Projectile/fire-projectile2-Sheet.png" id="2_5wipt"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="3_1j4ha"]
 [ext_resource type="Texture2D" uid="uid://cbsc8n7vcms8h" path="res://Art/Projectile/fire-projectile-Sheet3.png" id="3_k707d"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="4_umjfx"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sow1c"]
+lifetime_randomness = 0.11
+emission_shape = 1
+emission_sphere_radius = 5.31
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+gravity = Vector3(-50, 0, 0)
+color = Color(1, 0.776471, 0.0823529, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nd1p7"]
 atlas = ExtResource("2_5wipt")
@@ -185,18 +194,24 @@ light_mask = 2
 visibility_layer = 2
 script = ExtResource("1_k1i6j")
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_sow1c")
+explosiveness = 0.61
+randomness = 0.3
+
 [node name="Bullet" type="AnimatedSprite2D" parent="."]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(-1, 0)
+position = Vector2(1, 2)
 scale = Vector2(0.455, 0.455)
 sprite_frames = SubResource("SpriteFrames_kcver")
 animation = &"new_animation"
 autoplay = "new_animation"
-frame_progress = 0.293927
+frame = 2
+frame_progress = 0.643486
 
 [node name="PointLight2D" type="PointLight2D" parent="Bullet"]
-position = Vector2(0, -4.39561)
+position = Vector2(2.1978, 0)
 scale = Vector2(2.33516, 2.33516)
 color = Color(0.981995, 0.566936, 0.148718, 1)
 energy = 0.5
@@ -212,7 +227,6 @@ hitStats = SubResource("Resource_g78q0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(-2, -2)
 shape = SubResource("CapsuleShape2D_db8ix")
 
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

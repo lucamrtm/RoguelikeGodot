@@ -12,6 +12,7 @@ class_name Player
 @onready var hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var hitbox: HitboxComponent = $Weapon/HitboxComponent
 @onready var dash: DashComponent = $DashComponent
+@onready var dash_particles = $GPUParticles2D
 @onready var player: Player = $"."
 @onready var game_over: Control = $EndScreen/GameOver
 
@@ -37,7 +38,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if dash.is_dashing():
+		(animated_sprite_2d.material as ShaderMaterial).set_shader_parameter("enabled", true)
+	else:
+		(animated_sprite_2d.material as ShaderMaterial).set_shader_parameter("enabled", false)
 
 
 func _physics_process(delta: float) -> void:
@@ -72,6 +76,8 @@ func manage_input() -> void:
 	
 	if Input.is_action_just_pressed("dash"):
 		dash.do_dash(direction)
+		dash_particles.look_at(direction)
+		dash_particles.emitting = true
 	
 	if dash.is_dashing():
 		hurtbox.disable_collision()

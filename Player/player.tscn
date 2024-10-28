@@ -1,7 +1,8 @@
-[gd_scene load_steps=54 format=3 uid="uid://dj3ggh021hynw"]
+[gd_scene load_steps=61 format=3 uid="uid://dj3ggh021hynw"]
 
 [ext_resource type="Script" path="res://Player/Scripts/player.gd" id="1_8lsnq"]
 [ext_resource type="Texture2D" uid="uid://cuwwy12d7yktr" path="res://Player/Animation/Strike-Sheet.png" id="2_lcvn3"]
+[ext_resource type="Shader" uid="uid://sxjte3ihd1hp" path="res://Utility/hit_flash.tres" id="2_okjws"]
 [ext_resource type="Texture2D" uid="uid://besccg3map5y5" path="res://Art/Sprite-0003-Sheet.png" id="2_pjb08"]
 [ext_resource type="Texture2D" uid="uid://dwjcl66vnajf4" path="res://Art/running-Sheet.png" id="4_a20jc"]
 [ext_resource type="Texture2D" uid="uid://bsjf3axkw60u8" path="res://Player/Animation/idle-torch-Sheet.png" id="4_tllne"]
@@ -9,9 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://cdv4kihjn484t" path="res://Components/scenes/dash_component.tscn" id="6_7hs1c"]
 [ext_resource type="PackedScene" uid="uid://bo4pdtdxy3dff" path="res://Components/scenes/hurtbox_component.tscn" id="6_53enh"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igctm"]
-radius = 5.0
-height = 24.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hh7n1"]
+shader = ExtResource("2_okjws")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vri8e"]
 atlas = ExtResource("2_lcvn3")
@@ -288,9 +290,13 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igctm"]
+radius = 5.0
+height = 22.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5iujs"]
 radius = 5.0
-height = 24.0
+height = 22.0
 
 [sub_resource type="Animation" id="Animation_w6n7c"]
 length = 0.001
@@ -442,6 +448,33 @@ _data = {
 "walk_animation": SubResource("Animation_gs3ym")
 }
 
+[sub_resource type="Gradient" id="Gradient_b0ye0"]
+offsets = PackedFloat32Array(0.352941, 1)
+colors = PackedColorArray(0.933333, 0.909804, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_60luq"]
+gradient = SubResource("Gradient_b0ye0")
+
+[sub_resource type="Curve" id="Curve_hxnxn"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.530612, 0.593406), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_og8bw"]
+curve = SubResource("Curve_hxnxn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f777c"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.94
+spread = 30.517
+initial_velocity_min = 43.72
+initial_velocity_max = 109.29
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_og8bw")
+color_ramp = SubResource("GradientTexture1D_60luq")
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 position = Vector2(243, 136)
@@ -449,19 +482,20 @@ collision_layer = 3
 collision_mask = 5
 script = ExtResource("1_8lsnq")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_hh7n1")
+position = Vector2(0, -2.00002)
+scale = Vector2(0.423828, 0.439453)
+sprite_frames = SubResource("SpriteFrames_njuvg")
+animation = &"walk_animation"
+autoplay = "idle_torch_animation"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
 position = Vector2(0, -5.24521e-06)
 shape = SubResource("CapsuleShape2D_igctm")
 debug_color = Color(0.141196, 0.589545, 0.7, 0.42)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
-position = Vector2(5.24521e-06, -2.00001)
-scale = Vector2(0.423828, 0.439453)
-sprite_frames = SubResource("SpriteFrames_njuvg")
-animation = &"walk_animation"
-autoplay = "idle_torch_animation"
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_lapc0")
@@ -485,3 +519,12 @@ libraries = {
 "": SubResource("AnimationLibrary_p81ex")
 }
 autoplay = "idle_torch_animation"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+rotation = 3.14099
+emitting = false
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_f777c")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0

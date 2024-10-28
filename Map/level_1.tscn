@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=4 uid="uid://1m08dnxhnp3u"]
+[gd_scene load_steps=4 format=4 uid="uid://1m08dnxhnp3u"]
 
 [ext_resource type="TileSet" uid="uid://cdgl7kv1h0a8a" path="res://Map/tile_set.tres" id="1_n55ho"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dms0q"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mlu2w"]
 
 [node name="Level1" type="TileMapLayer"]
 position = Vector2(-271, -159)
@@ -10,3 +14,11 @@ tile_set = ExtResource("1_n55ho")
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2(271, 158)
 color = Color(0.392157, 0.392157, 0.392157, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
+position = Vector2(279, 368)
+physics_material_override = SubResource("PhysicsMaterial_dms0q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_mlu2w")

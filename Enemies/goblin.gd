@@ -3,9 +3,10 @@ extends CharacterBody2D
 @export var speed = 90
 @onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
 
-
-@onready var luz_olhos_1: PointLight2D = $AnimatedSprite2D/LuzOlhos1
+@onready var eyes = $eyes
+@onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
+@onready var animation_player = $HitAnimationPlayer
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var hitbox: HitboxComponent = $HitboxComponent
@@ -51,6 +52,7 @@ func _physics_process(delta: float) -> void:
 	# Flip the sprite based on the direction
 	if move_direction.x != 0:
 		animated_sprite_2d.flip_h = move_direction.x < 0
+		eyes.scale.x = 1 if move_direction.x > 0 else -1
 		
 	update_animation()
 
@@ -63,7 +65,8 @@ func spawnNewGoblin(position : Vector2):
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 	print("Hitbox atacando o goblin! Goblin sofreu dano.")
 	health_component.damage(hitbox.hitStats.damage)
-
+	animation_player.play("hit")
+	
 
 func _on_died() -> void:
 	print("Goblin morreu!")

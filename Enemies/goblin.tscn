@@ -1,12 +1,23 @@
-[gd_scene load_steps=27 format=3 uid="uid://le6748rwxf6b"]
+[gd_scene load_steps=33 format=3 uid="uid://le6748rwxf6b"]
 
 [ext_resource type="Texture2D" uid="uid://cutcnm5txyh5q" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_idle_spritesheet.png" id="1_7g15j"]
 [ext_resource type="Script" path="res://Enemies/goblin.gd" id="1_aimpi"]
+[ext_resource type="Shader" uid="uid://sxjte3ihd1hp" path="res://Utility/hit_flash.tres" id="2_c6un0"]
 [ext_resource type="Texture2D" uid="uid://cdjctccr4d2y3" path="res://Art/v1.1 dungeon crawler 16X16 pixel pack/enemies/goblin/goblin_run_spritesheet.png" id="2_qr4ph"]
 [ext_resource type="PackedScene" uid="uid://0ewdkkjlagl2" path="res://Components/scenes/health_component.tscn" id="4_uj7me"]
 [ext_resource type="PackedScene" uid="uid://bo4pdtdxy3dff" path="res://Components/scenes/hurtbox_component.tscn" id="5_vi7t2"]
 [ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="6_yqf1k"]
 [ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="7_vkcai"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fs7rs"]
+shader = ExtResource("2_c6un0")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6eebs"]
+shader = ExtResource("2_c6un0")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4npsb"]
 atlas = ExtResource("1_7g15j")
@@ -134,17 +145,131 @@ can_damage = true
 radius = 5.0
 height = 14.0
 
+[sub_resource type="Animation" id="Animation_rp5rn"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.349066, -0.261799, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.349066, -0.349066, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/path = NodePath(".:material:shader_parameter/enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_tb5xs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f7u6t"]
+_data = {
+"RESET": SubResource("Animation_tb5xs"),
+"hit": SubResource("Animation_rp5rn")
+}
+
 [node name="goblin" type="CharacterBody2D" groups=["enemy"]]
+material = SubResource("ShaderMaterial_fs7rs")
 collision_layer = 5
 collision_mask = 3
 script = ExtResource("1_aimpi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_6eebs")
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ykk2w")
 animation = &"idle"
 frame_progress = 0.88171
 
-[node name="LuzOlhos1" type="PointLight2D" parent="AnimatedSprite2D"]
+[node name="eyes" type="Marker2D" parent="."]
+
+[node name="LuzOlhos1" type="PointLight2D" parent="eyes"]
 position = Vector2(0.545, -0.53)
 scale = Vector2(0.04, 0.04)
 color = Color(0.026014, 0.957764, 0.981995, 1)
@@ -153,7 +278,7 @@ range_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_m2761")
 height = 1.0
 
-[node name="LuzOlhos2" type="PointLight2D" parent="AnimatedSprite2D"]
+[node name="LuzOlhos2" type="PointLight2D" parent="eyes"]
 position = Vector2(3.52, -0.54)
 scale = Vector2(0.04, 0.04)
 color = Color(0.026014, 0.957764, 0.981995, 1)
@@ -189,3 +314,8 @@ hitStats = SubResource("Resource_5exh3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape2D_10w6e")
+
+[node name="HitAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_f7u6t")
+}
