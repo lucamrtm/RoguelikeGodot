@@ -55,9 +55,6 @@ texture = ExtResource("1_w7sgj")
 3:2/0 = 0
 4:2/0 = 0
 5:2/0 = 0
-6:2/0 = 0
-6:2/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_23hvh")
-6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 8:2/0 = 0
 8:2/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ak3kx")
 8:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -114,6 +111,9 @@ texture = ExtResource("1_w7sgj")
 0:1/size_in_atlas = Vector2i(2, 1)
 0:1/0 = 0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -8, 15.75, -8.125, 15.75, 6.75, -15.75, 6.75)
+6:2/0 = 0
+6:2/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_23hvh")
+6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [resource]
 occlusion_layer_0/light_mask = 1

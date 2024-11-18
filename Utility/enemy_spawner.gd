@@ -1,17 +1,19 @@
 extends Node2D
 
+signal room_cleared
 
-@export var spawns : Array[Spawn_info] = []
+@export var spawns: Array[Spawn_info] = []
 @onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer: Timer = $Timer
 const BOSS = preload("res://Enemies/Boss.tscn")
 var boss_spawned = false  # Variável para controlar se o chefe já foi spawnado
+var trigger_cleared = false
 
 @export var maxEnemies : int
 var currentEnemies = 0
 
-var time =0
+var time = 0
 
 func _process(delta: float) -> void:
 	#if control.isZero():
@@ -19,8 +21,9 @@ func _process(delta: float) -> void:
 		#timer.stop()
 	if currentEnemies == maxEnemies:
 		timer.stop()
-	if control.isZero()and not boss_spawned:
-		spawn_boss()
+	if control.isZero() and not trigger_cleared:
+		trigger_cleared = true
+		room_cleared.emit()
 
 
 func spawn_boss():
