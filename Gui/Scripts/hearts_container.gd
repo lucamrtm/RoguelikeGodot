@@ -2,25 +2,27 @@ extends HBoxContainer
 
 const HEART_GUI = preload("res://Gui/heart_gui.tscn")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var player_health: HealthComponent:
+	set(health):
+		player_health = health
+		setMaxHearts(player_health.maxHealth)
+		updateHearts(player_health.currentHealth)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func setMaxHearts(max: int):
-	for i in range(max):
+func setMaxHearts(maxHealthChange):
+	while maxHealthChange > 0:
 		var heart = HEART_GUI.instantiate()
 		add_child(heart)
-	
-func updateHearts(currentHealth: int):
+		maxHealthChange -= 1
+	while maxHealthChange < 0:
+		get_children()[-1].queue_free()
+		maxHealthChange += 1
+
+
+func updateHearts(healthChange: int):
 	var hearts = get_children()
 	
-	for i in range(currentHealth):
+	for i in range(player_health.currentHealth):
 		hearts[i].update(true)
 	
-	for i in range(currentHealth, hearts.size()):
+	for i in range(player_health.currentHealth, hearts.size()):
 		hearts[i].update(false)
