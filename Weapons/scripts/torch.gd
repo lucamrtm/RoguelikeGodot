@@ -1,5 +1,6 @@
 extends Weapon
 
+
 @export var shootSpeed = 1.0
 
 const BULLET = preload("res://Weapons/Ammo/Bullet.tscn")
@@ -12,6 +13,7 @@ const BULLET = preload("res://Weapons/Ammo/Bullet.tscn")
 
 var canShoot = true
 var bulletDirection = Vector2(1,0)
+
 
 
 
@@ -38,6 +40,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	look_at(get_global_mouse_position())
+
 
 
 func use() -> void:

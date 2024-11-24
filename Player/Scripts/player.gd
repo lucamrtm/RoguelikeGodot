@@ -18,15 +18,18 @@ class_name Player
 
 # MOVEMENT
 @export var max_speed: float = 150
-@export var acceleration : float = 20
+@export var acceleration: float = 20
+var direction: Vector2
 
 # ATTACK
 var direction : Vector2 = Vector2.ZERO
 var is_attacking: bool = false
 var weapon: Weapon
 
+
 # VIDA
 var is_dead: bool = false
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,6 +41,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	if dash.is_dashing():
 		(animated_sprite_2d.material as ShaderMaterial).set_shader_parameter("enabled", true)
 	else:
@@ -52,6 +56,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	scale.x = -1 if abs(get_angle_to(get_global_mouse_position())) > 1.5 else 1
+
 	
 	handleCollision()
 	updateAnimation()
@@ -67,8 +72,6 @@ func _physics_process(delta: float) -> void:
 
 
 func manage_input() -> void:
-	var direction
-	
 	if !dash.is_dashing():
 		hurtbox.enable_collision()
 		collision_shape_2d.disabled = false
@@ -94,6 +97,7 @@ func handleCollision():
 		var collider = collision.get_collider()
 		#print_debug(collider.name)
 
+
 func _on_animation_finished(anim_name: String) -> void:
 	# Verifica se a animação que terminou foi a de ataque
 	if anim_name == "attack_animation":
@@ -101,6 +105,7 @@ func _on_animation_finished(anim_name: String) -> void:
 		is_attacking = false
 		# Agora que o ataque terminou, muda para a animação idle
 		animation_player.play("idle_animation")
+
 
 
 func updateAnimation():
@@ -115,8 +120,8 @@ func updateAnimation():
 func attack():
 	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
 		is_attacking = true
-		animation_player.play("attack_animation")
 		# ativa a attackBox quando esta atacando, trocando a camada de colisão
+
 
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
