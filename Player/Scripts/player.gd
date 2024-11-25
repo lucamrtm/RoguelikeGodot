@@ -19,6 +19,7 @@ class_name Player
 # MOVEMENT
 @export var max_speed: float = 150
 @export var acceleration : float = 20
+@export var anim_attk_speed : float = 1
 
 # ATTACK
 var direction : Vector2 = Vector2.ZERO
@@ -96,7 +97,7 @@ func handleCollision():
 
 func _on_animation_finished(anim_name: String) -> void:
 	# Verifica se a animação que terminou foi a de ataque
-	if anim_name == "attack_animation":
+	if anim_name == "attack_animation" or anim_name == "running_attack_animation":
 		weapon.shoot()
 		is_attacking = false
 		# Agora que o ataque terminou, muda para a animação idle
@@ -114,13 +115,28 @@ func updateAnimation():
 
 func attack():
 	if not is_attacking:  # garantir que não bate varias vezes ao mesmo tempo
-		is_attacking = true
-		animation_player.play("attack_animation")
-		# ativa a attackBox quando esta atacando, trocando a camada de colisão
+		if velocity == Vector2.ZERO:
+			is_attacking = true
+			animation_player.play("attack_animation", 0, anim_attk_speed)
+			# ativa a attackBox quando esta atacando, trocando a camada de colisão
+		else:
+			is_attacking = true
+			animation_player.play("running_attack_animation", 0, anim_attk_speed)
+			# ativa a attackBox quando esta atacando, trocando a camada de colisão
+			
+			
+		
 
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 	health.damage(hitbox.hitStats.damage)
+
+func set_shot_speed(amount: int) -> void:
+	if weapon:  # Verifica se a arma está atribuída
+		weapon.set_shoot_speed((amount))
+		anim_attk_speed += 1
+
+
 
 
 func _on_died() -> void:

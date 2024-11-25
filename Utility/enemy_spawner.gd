@@ -7,6 +7,7 @@ signal room_cleared
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer: Timer = $Timer
 const BOSS = preload("res://Enemies/Boss.tscn")
+const ATTCKSPEEDBOOST = preload("res://Weapons/attckspeedboost.tscn")
 var boss_spawned = false  # Variável para controlar se o chefe já foi spawnado
 var trigger_cleared = false
 
@@ -22,8 +23,17 @@ func _process(delta: float) -> void:
 	if currentEnemies == maxEnemies:
 		timer.stop()
 	if control.isZero() and not trigger_cleared:
+		spawn_attack_speed_boost()
 		trigger_cleared = true
 		room_cleared.emit()
+
+func get_max_enemies():
+	return maxEnemies
+	
+
+func spawn_attack_speed_boost():
+	var boost_spawn = ATTCKSPEEDBOOST.instantiate()
+	add_child(boost_spawn)
 
 
 func spawn_boss():

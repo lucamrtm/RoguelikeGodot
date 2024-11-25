@@ -17,7 +17,7 @@ var bulletDirection = Vector2(1,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	shoot_speed_timer.wait_time = 1.0 / shootSpeed
+	pass 
 	
 func shoot():
 	if canShoot:
@@ -30,10 +30,17 @@ func shoot():
 		get_tree().root.add_child(bulletNode)
 		bulletNode.global_position = marker_2d.global_position
 
+func set_shoot_speed(speed: int) -> void:
+	shootSpeed += speed
+	print("aumentou")
+	print(shootSpeed)
+
+func get_shoot_speed():
+	return shootSpeed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	shoot_speed_timer.wait_time = 1.0 / shootSpeed
 
 
 func _physics_process(delta: float) -> void:
