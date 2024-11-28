@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 func manage_input() -> void:
 	if !dash.is_dashing():
 		hurtbox.enable_collision()
-		collision_shape_2d.disabled = false
+		enable_collision_with_mask(2)
 		direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	if Input.is_action_just_pressed("dash"):
@@ -85,12 +85,20 @@ func manage_input() -> void:
 	
 	if dash.is_dashing():
 		hurtbox.disable_collision()
-		collision_shape_2d.disabled = true
+		disable_collision_with_mask(2)
 		velocity.x = move_toward(velocity.x, dash.dash_speed * dash.dash_direction.x, acceleration)
 		velocity.y = move_toward(velocity.y, dash.dash_speed * dash.dash_direction.y, acceleration)
 	else:
 		velocity.x = move_toward(velocity.x, max_speed * direction.x, acceleration)
 		velocity.y = move_toward(velocity.y, max_speed * direction.y, acceleration)
+
+
+func disable_collision_with_mask(mask: int) -> void:
+	collision_mask &= ~(1 << (mask - 1))  # Remove a máscara correspondente
+
+func enable_collision_with_mask(mask: int) -> void:
+	collision_mask |= (1 << (mask - 1))  # Adiciona a máscara correspondente
+
 
 func handleCollision():
 	for i in get_slide_collision_count():

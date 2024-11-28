@@ -18,33 +18,39 @@ var startPosition
 var endPosition
 var move_direction
 
+var dead = false
 
 func _ready() -> void:
+	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
+	
 	startPosition = position # startPosition = posição atual do personagem.
-	update_target_position()
-	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
+	if not dead:
+		update_target_position(player.position)
+		hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
 	health_component.died.connect(_on_died)
 
 
 # atualiza endPosition para a posição do jogador
-func update_target_position():
-	endPosition = player.position
+func update_target_position(position : Vector2 ):
+	endPosition = position
 
 
 func change_direction():
 	# atualiza a endPosition para a posição do jogador novamente
-	update_target_position()
+	update_target_position(player.position)
 	# define a nova posição inicial como a atual
 	startPosition = position
 
 
 func update_velocity():
-	move_direction = endPosition - position
-	change_direction()
-	velocity = move_direction.normalized() * speed
+	if not dead:
+		move_direction = endPosition - position
+		change_direction()
+		velocity = move_direction.normalized() * speed
 
 func update_animation():
-	animated_sprite_2d.play("walk")
+	if not dead:
+		animated_sprite_2d.play("walk")
 
 func _physics_process(delta: float) -> void:
 	update_velocity()
@@ -70,6 +76,18 @@ func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 
 func _on_died() -> void:
 	print("Goblin morreu!")
+	dead = true
+	move_direction = Vector2.ZERO
+	update_target_position(position)
+	print("Chamando a animação de morte")
+	animated_sprite_2d.play("death_animation")
+	print("Animação atual:", animated_sprite_2d.animation)
 	control.updateScore()
+	# Conecta o sinal de término da animação para chamar o `queue_free` depois
+	
+
+
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
 	queue_free()
-	#spawnNewGoblin( get_viewport_rect().size / 2)

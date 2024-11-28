@@ -14,7 +14,7 @@ var nextRoom = 0
 func _ready() -> void:
 	remove_child(camera)
 	player.add_child(camera)
-	camera.zoom = Vector2(1.2, 1.2)  # Aumenta o zoom (aproxima)
+	camera.zoom = Vector2(0.9, 0.9)  # teste (aproxima)#camera.zoom = Vector2(1.2, 1.2)  # Aumenta o zoom (aproxima)
 	hearts_container.player_health = player.health
 	player.health.healthChanged.connect(hearts_container.updateHearts)
 	weapon_manager.player = player
