@@ -1,92 +1,80 @@
 extends CharacterBody2D
 
-@export var speed = 90
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+@export var speed: float = 90
+@export var min_distance: float = 50  # Distância mínima antes de começar a fugir
+@export var max_distance: float = 100  # Distância máxima antes de se aproximar
 
-@onready var eyes = $eyes
-@onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
-@onready var animation_player = $HitAnimationPlayer
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var player = get_tree().get_first_node_in_group("player")
-@onready var hurtbox: HurtboxComponent = $HurtboxComponent
-@onready var hitbox: HitboxComponent = $HitboxComponent
-@onready var health_component: HealthComponent = $HealthComponent
+@onready var timer = Timer.new()
 
-const GOBLIN = preload("res://Enemies/goblin.tscn")
+# Estados possíveis do inimigo
+enum State { FOLLOW, FLEE, IDLE }
+var state: int = State.IDLE  # Estado inicial
 
-var startPosition
-var endPosition
-var move_direction
-
-var dead = false
+var move_direction: Vector2
+var dead: bool = false
 
 func _ready() -> void:
-	aa
-	startPosition = position # startPosition = posição atual do personagem.
-	if not dead:
-		update_target_position(player.position)
-		hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
-	health_component.died.connect(_on_died)
-
-
-# atualiza endPosition para a posição do jogador
-func update_target_position(position : Vector2 ):
-	endPosition = position
-
-
-func change_direction():
-	# atualiza a endPosition para a posição do jogador novamente
-	update_target_position(player.position)
-	# define a nova posição inicial como a atual
-	startPosition = position
-
-
-func update_velocity():
-	if not dead:
-		move_direction = endPosition - position
-		change_direction()
-		velocity = move_direction.normalized() * speed
-
-func update_animation():
-	if not dead:
-		animated_sprite_2d.play("walk")
+	add_child(timer)
+	timer.wait_time = 1  # Tempo para fugir antes de reconsiderar
+	timer.one_shot = true
+	move_direction = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
-	update_velocity()
+	if dead:
+		return  # Não faz nada se estiver morto
+
+	update_state()
 	move_and_slide()
-	# Flip the sprite based on the direction
-	if move_direction.x != 0:
-		animated_sprite_2d.flip_h = move_direction.x < 0
-		eyes.scale.x = 1 if move_direction.x > 0 else -1
-		
+
 	update_animation()
+	flip_sprite()
 
-func spawnNewGoblin(position : Vector2):
-	var new_goblin = GOBLIN.instantiate() # cria uma nova instância de goblin
-	get_parent().add_child(new_goblin) # adiciona o goblin como filho do mesmo pai
-	new_goblin.position = position 
+func update_state():
+	var distance_to_player = position.distance_to(player.position)
 
+	# Se está fugindo
+	if state == State.FLEE:
+		if timer.is_stopped():  # Se o temporizador expira, reconsidera o estado
+			state = State.FOLLOW if distance_to_player > max_distance else State.IDLE
 
-func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
-	print("Hitbox atacando o goblin! Goblin sofreu dano.")
-	health_component.damage(hitbox.hitStats.damage)
-	animation_player.play("hit")
-	
+	# Decide novo estado com base na distância
+	elif distance_to_player < min_distance:
+		state = State.FLEE
+		start_fleeing()
+	elif distance_to_player > max_distance:
+		state = State.FOLLOW
+		start_following()
+	else:
+		state = State.IDLE
 
-func _on_died() -> void:
-	print("Goblin morreu!")
-	dead = true
-	move_direction = Vector2.ZERO
-	update_target_position(position)
-	animated_sprite_2d.stop()
-	print("Chamando a animação de morte")
-	animated_sprite_2d.play("death_animation")
-	print("Animação atual:", animated_sprite_2d.animation)
-	control.updateScore()
-	# Conecta o sinal de término da animação para chamar o `queue_free` depois
+	# Atualiza a direção e a velocidade com base no estado
+	update_velocity()
 
+func start_fleeing():
+	timer.start()
+	move_direction = (position - player.position).normalized()
+	velocity = move_direction * speed
 
+func start_following():
+	move_direction = (player.position - position).normalized()
+	velocity = move_direction * speed
 
+func update_velocity():
+	if state == State.FLEE:
+		velocity = move_direction * speed
+	elif state == State.FOLLOW:
+		velocity = move_direction * speed
+	else:
+		velocity = Vector2.ZERO  # IDLE: sem movimento
 
-func _on_animated_sprite_2d_animation_finished() -> void:
-	queue_free()
+func update_animation():
+	if velocity.length() > 0:
+		animated_sprite_2d.play("walk")
+	else:
+		animated_sprite_2d.play("idle")
+
+func flip_sprite():
+	if velocity.x != 0:
+		animated_sprite_2d.flip_h = velocity.x < 0

@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://game.gd" id="1_cxgh8"]
 [ext_resource type="PackedScene" uid="uid://bb4106tpynp81" path="res://Map/level_2.tscn" id="2_0lcu3"]
 [ext_resource type="PackedScene" uid="uid://1m08dnxhnp3u" path="res://Map/level_1.tscn" id="2_7iu8r"]
-[ext_resource type="PackedScene" uid="uid://le6748rwxf6b" path="res://Enemies/goblin.tscn" id="3_wk2ej"]
 [ext_resource type="PackedScene" uid="uid://b3fhwhswncvud" path="res://Gui/hearts_container.tscn" id="5_32hsr"]
 [ext_resource type="Script" path="res://weapon_manager.gd" id="6_1654i"]
 [ext_resource type="Script" path="res://Gui/GameUI.gd" id="6_oo5gl"]
@@ -14,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://rvgkkqymc5jm" path="res://Art/shuriken-export512.png" id="9_j735r"]
 [ext_resource type="Script" path="res://Utility/spawn_info.gd" id="9_l47h6"]
 [ext_resource type="Script" path="res://Utility/End Game/EndGame.gd" id="11_2v0m4"]
+[ext_resource type="PackedScene" uid="uid://crbkt8wofhn03" path="res://Enemies/Mage/Mage.tscn" id="14_3gorx"]
 
 [sub_resource type="Gradient" id="Gradient_0gc56"]
 offsets = PackedFloat32Array(0, 0.775758)
@@ -99,7 +99,7 @@ animations = [{
 script = ExtResource("9_l47h6")
 time_start = 0
 time_end = 60
-enemy = ExtResource("3_wk2ej")
+enemy = ExtResource("14_3gorx")
 enemy_num = 1
 enemy_spawn_delay = 0
 
