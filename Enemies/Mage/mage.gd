@@ -21,8 +21,7 @@ var move_direction
 var dead = false
 
 func _ready() -> void:
-	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
-	
+	aa
 	startPosition = position # startPosition = posição atual do personagem.
 	if not dead:
 		update_target_position(player.position)
@@ -79,12 +78,12 @@ func _on_died() -> void:
 	dead = true
 	move_direction = Vector2.ZERO
 	update_target_position(position)
+	animated_sprite_2d.stop()
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
 	control.updateScore()
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
-	
 
 
 

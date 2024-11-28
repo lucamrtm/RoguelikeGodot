@@ -95,7 +95,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="Resource" id="Resource_21gy3"]
+[sub_resource type="Resource" id="Resource_32xmc"]
 script = ExtResource("9_l47h6")
 time_start = 0
 time_end = 60
@@ -216,5 +216,5 @@ energy = 0.25
 blend_mode = 1
 
 [node name="EnemySpawner" parent="." instance=ExtResource("8_xcd6q")]
-spawns = Array[ExtResource("9_l47h6")]([SubResource("Resource_21gy3")])
+spawns = Array[ExtResource("9_l47h6")]([SubResource("Resource_32xmc")])
 maxEnemies = 1
