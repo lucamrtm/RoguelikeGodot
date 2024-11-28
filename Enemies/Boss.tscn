@@ -169,7 +169,7 @@ script = ExtResource("1_fs82c")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ykk2w")
 animation = &"idle"
-frame_progress = 0.641329
+frame_progress = 0.316174
 
 [node name="LuzOlhos1" type="PointLight2D" parent="AnimatedSprite2D"]
 position = Vector2(5, 14)

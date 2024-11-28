@@ -1,4 +1,15 @@
 extends CharacterBody2D
+@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+
+@onready var eyes = $eyes
+@onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1
+@onready var animation_player = $HitAnimationPlayer
+@onready var hurtbox: HurtboxComponent = $HurtboxComponent
+@onready var hitbox: HitboxComponent = $HitboxComponent
+@onready var health_component: HealthComponent = $HealthComponent
+
+const GOBLIN = preload("res://Enemies/Mage/Mage.tscn")
+
 
 @export var speed: float = 90
 @export var min_distance: float = 50  # Distância mínima antes de começar a fugir
@@ -16,10 +27,13 @@ var move_direction: Vector2
 var dead: bool = false
 
 func _ready() -> void:
+	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
+	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 	add_child(timer)
 	timer.wait_time = 1  # Tempo para fugir antes de reconsiderar
 	timer.one_shot = true
 	move_direction = Vector2.ZERO
+	health_component.died.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
 	if dead:
@@ -78,3 +92,25 @@ func update_animation():
 func flip_sprite():
 	if velocity.x != 0:
 		animated_sprite_2d.flip_h = velocity.x < 0
+
+func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
+	print("Hitbox atacando o goblin! Goblin sofreu dano.")
+	health_component.damage(hitbox.hitStats.damage)
+	animation_player.play("hit")
+	
+
+
+
+func _on_died() -> void:
+	print("Goblin morreu!")
+	dead = true
+	move_direction = Vector2.ZERO
+	print("Chamando a animação de morte")
+	animated_sprite_2d.play("death_animation")
+	print("Animação atual:", animated_sprite_2d.animation)
+	control.updateScore()
+	# Conecta o sinal de término da animação para chamar o `queue_free` depois
+	
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	queue_free()
