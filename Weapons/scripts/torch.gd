@@ -1,17 +1,19 @@
 extends Weapon
 
 @export var shootSpeed = 1.0
-
 const BULLET = preload("res://Weapons/Ammo/Bullet.tscn")
+@onready var shoot_speed_timer: Timer = $ShootSpeedTimer
+var canShoot = true
+var bulletDirection = Vector2(1,0)
+
+
 @onready var sprite = $Sprite2D
 @onready var hitbox = $Sprite2D/HitboxComponent
 @onready var animation = $AnimationPlayer
 @onready var marker_2d: Marker2D = $Marker2D
-@onready var shoot_speed_timer: Timer = $ShootSpeedTimer
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
-var canShoot = true
-var bulletDirection = Vector2(1,0)
+
 
 
 

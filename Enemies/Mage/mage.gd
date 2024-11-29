@@ -8,6 +8,13 @@ extends CharacterBody2D
 @onready var hitbox: HitboxComponent = $HitboxComponent
 @onready var health_component: HealthComponent = $HealthComponent
 
+@export var shootSpeed = 1.0
+const BULLET = preload("res://Weapons/Ammo/EnemyBullet.tscn")
+@onready var shoot_speed_timer: Timer = $ShootSpeedTimer
+var canShoot = true
+var bulletDirection
+@onready var marker_2d: Marker2D = $AnimatedSprite2D/Marker2D
+
 const GOBLIN = preload("res://Enemies/Mage/Mage.tscn")
 
 
@@ -27,6 +34,10 @@ var move_direction: Vector2
 var dead: bool = false
 
 func _ready() -> void:
+	shoot_speed_timer.wait_time = shootSpeed  # Configura o tempo entre disparos
+	shoot_speed_timer.one_shot = true  # Impede disparos consecutivos
+	shoot_speed_timer.timeout.connect(_on_shoot_speed_timer_timeout)  # Conecta o temporizador ao método
+	
 	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)
 	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 	add_child(timer)
@@ -41,9 +52,11 @@ func _physics_process(delta: float) -> void:
 
 	update_state()
 	move_and_slide()
-
-	update_animation()
 	flip_sprite()
+	update_animation()
+	
+	# Atualiza a direção da bala para apontar sempre na direção do jogador
+	bulletDirection = (player.global_position - global_position).normalized()
 
 func update_state():
 	var distance_to_player = position.distance_to(player.position)
@@ -62,6 +75,8 @@ func update_state():
 		start_following()
 	else:
 		state = State.IDLE
+		if canShoot:
+			shoot()
 
 	# Atualiza a direção e a velocidade com base no estado
 	update_velocity()
@@ -91,14 +106,27 @@ func update_animation():
 
 func flip_sprite():
 	if velocity.x != 0:
-		animated_sprite_2d.flip_h = velocity.x < 0
+		# Altera a escala para flipar horizontalmente
+		animated_sprite_2d.scale.x = -1 if velocity.x < 0 else 1
+
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 	print("Hitbox atacando o goblin! Goblin sofreu dano.")
 	health_component.damage(hitbox.hitStats.damage)
-	animation_player.play("hit")
+	
 	
 
+
+func shoot():
+	if canShoot:
+		canShoot = false
+		shoot_speed_timer.start()
+		
+		var bulletNode = BULLET.instantiate()
+		
+		bulletNode.setDirection(bulletDirection)
+		get_tree().root.add_child(bulletNode)
+		bulletNode.global_position = marker_2d.global_position
 
 
 func _on_died() -> void:
@@ -114,3 +142,7 @@ func _on_died() -> void:
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	queue_free()
+
+
+func _on_shoot_speed_timer_timeout() -> void:
+	canShoot = true

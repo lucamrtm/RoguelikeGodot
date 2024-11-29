@@ -628,8 +628,9 @@ dash_time = 0.4
 cooldown_time = 0.5
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("6_53enh")]
-collision_layer = 2
-collision_mask = 4
+z_index = 5
+collision_layer = 130
+collision_mask = 132
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("CapsuleShape2D_5iujs")

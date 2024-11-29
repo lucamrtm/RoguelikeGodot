@@ -1,5 +1,6 @@
 extends Node
-class_name WeaponManager
+class_name CustomWeaponManager
+@onready var torch: Node2D = $Torch
 
 @export var starting_weapon: Weapon
 
@@ -12,7 +13,7 @@ var player: Player:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	starting_weapon = torch
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

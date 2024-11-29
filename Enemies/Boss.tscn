@@ -162,6 +162,7 @@ radius = 15.0
 height = 40.0
 
 [node name="Boss" type="CharacterBody2D" groups=["enemy"]]
+z_index = 1
 collision_layer = 5
 collision_mask = 3
 script = ExtResource("1_fs82c")
@@ -172,13 +173,17 @@ animation = &"idle"
 frame_progress = 0.316174
 
 [node name="LuzOlhos1" type="PointLight2D" parent="AnimatedSprite2D"]
-position = Vector2(5, 14)
+position = Vector2(1, 18)
 scale = Vector2(1.33387, 0.943828)
 color = Color(0.981995, 0.026014, 0.0482753, 1)
 energy = 1.06
 range_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_m2761")
 height = 1.0
+
+[node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
+position = Vector2(16.4706, 23.5294)
+rotation = -0.261799
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
@@ -210,3 +215,5 @@ hitStats = SubResource("Resource_5exh3")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(1, 24)
 shape = SubResource("CapsuleShape2D_10w6e")
+
+[node name="ShootSpeedTimer" type="Timer" parent="."]
