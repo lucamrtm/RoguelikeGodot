@@ -3,7 +3,12 @@ extends Node2D
 signal room_cleared
 
 @export var spawns: Array[Spawn_info] = []
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+@onready var game: Node = get_node("/root/Game")
+var currentLevel: PackedScene
+var control: Control
+
+
+
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer: Timer = $Timer
 const BOSS = preload("res://Enemies/Boss.tscn")
@@ -16,16 +21,33 @@ var currentEnemies = 0
 
 var time = 0
 
+func _ready() -> void:
+	currentLevel = game.get_level()
+	if currentLevel:
+		print("currentLevel encontrado:", currentLevel)
+		if currentLevel.has_node("CanvasLayer"):
+			var canvas_layer = currentLevel.get_node("CanvasLayer")
+			if canvas_layer.has_node("Control"):
+				control = canvas_layer.get_node("Control")
+			else:
+				print("Control não encontrado no CanvasLayer")
+		else:
+			print("CanvasLayer não encontrado no currentLevel")
+	else:
+		print("currentLevel é null!")
+
+
 func _process(delta: float) -> void:
 	#if control.isZero():
 		#queue_free()
 		#timer.stop()
 	if currentEnemies == maxEnemies:
 		timer.stop()
-	if control.isZero() and not trigger_cleared:
+	if control.isZero() and not trigger_cleared: ### TA DANDO NULL PQQQQQQQQQ
 		spawn_attack_speed_boost()
 		trigger_cleared = true
 		room_cleared.emit()
+
 
 func get_max_enemies():
 	return maxEnemies

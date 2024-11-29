@@ -1,7 +1,7 @@
 extends Control
 
 @onready var scoreLabel: Label = $Score
-@onready var enemy_spawner: Node2D = get_node("/root/Game/EnemySpawner")
+@onready var enemy_spawner: Node2D = get_node("../../EnemySpawner")
 
 var score
 
@@ -19,6 +19,11 @@ func _process(delta: float) -> void:
 func updateScore():
 	score -= 1
 	scoreLabel.text = "Inimigos restantes: %d" % score
+	if score == 0:
+		# Notifica o Game que a sala foi limpa
+		var game = get_node("/root/Game")  # Ajuste o caminho para o nó Game
+		game.room_cleared()
+		print("acabou a sala")
 	
 func isZero():
 	return true if score == 0 else false

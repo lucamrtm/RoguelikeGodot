@@ -18,3 +18,8 @@ func enable_exit() -> void:
 
 func _on_area_2d_body_entered(body: Player) -> void:
 	level_exit_entered.emit()
+	print("emitido")
+
+
+func _on_area_2d_body_exited(body: Player) -> void:
+	area.monitoring = true

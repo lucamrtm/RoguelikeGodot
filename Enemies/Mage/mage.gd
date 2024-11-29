@@ -1,5 +1,7 @@
 extends CharacterBody2D
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+
+
+
 
 @onready var eyes = $eyes
 @onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1
@@ -16,6 +18,10 @@ var bulletDirection
 @onready var marker_2d: Marker2D = $AnimatedSprite2D/Marker2D
 
 const GOBLIN = preload("res://Enemies/Mage/Mage.tscn")
+
+@onready var game: Node = get_node("/root/Game")
+var currentLevel: Node 
+var control: Control 
 
 
 @export var speed: float = 90
@@ -34,6 +40,12 @@ var move_direction: Vector2
 var dead: bool = false
 
 func _ready() -> void:
+	currentLevel = game.get_level()
+	if currentLevel:
+		var canvas_layer = currentLevel.get_node("CanvasLayer")
+		control = canvas_layer.get_node("Control")
+	
+	
 	shoot_speed_timer.wait_time = shootSpeed  # Configura o tempo entre disparos
 	shoot_speed_timer.one_shot = true  # Impede disparos consecutivos
 	shoot_speed_timer.timeout.connect(_on_shoot_speed_timer_timeout)  # Conecta o temporizador ao método

@@ -1,7 +1,10 @@
 extends CharacterBody2D
 
 @export var speed = 90
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+@onready var game: Node = get_node("/root/Game")
+var currentLevel: Node 
+var control: Control 
+
 
 @onready var eyes = $eyes
 @onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1

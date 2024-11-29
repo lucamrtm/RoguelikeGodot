@@ -83,7 +83,7 @@ func manage_input() -> void:
 		direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	if Input.is_action_just_pressed("dash"):
-		dash.do_dash(direction)
+		dash.do_dash(direction) 
 		dash_particles.look_at(direction)
 		dash_particles.emitting = true
 	

@@ -334,6 +334,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="torre" type="CharacterBody2D" groups=["enemy"]]
+z_index = 1
 material = SubResource("ShaderMaterial_fs7rs")
 scale = Vector2(0.85, 0.85)
 collision_layer = 2
@@ -344,9 +345,7 @@ script = ExtResource("2_cq8xq")
 material = SubResource("ShaderMaterial_6eebs")
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ykk2w")
-animation = &"death_animation"
-frame = 10
-frame_progress = 1.0
+animation = &"idle"
 
 [node name="eyes" type="Marker2D" parent="."]
 visible = false
@@ -371,7 +370,6 @@ texture = SubResource("GradientTexture2D_m2761")
 height = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 1
 position = Vector2(-1.19209e-07, 20)
 shape = SubResource("CapsuleShape2D_igy62")
@@ -387,7 +385,6 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-visible = false
 light_mask = 3
 visibility_layer = 3
 position = Vector2(-1.19209e-07, 20)
@@ -400,7 +397,6 @@ collision_mask = 2
 hitStats = SubResource("Resource_5exh3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-visible = false
 position = Vector2(1.42109e-14, 21.1765)
 shape = SubResource("CapsuleShape2D_10w6e")
 

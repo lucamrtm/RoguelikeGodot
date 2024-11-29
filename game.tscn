@@ -1,20 +1,14 @@
-[gd_scene load_steps=29 format=3 uid="uid://bij3bajd0p1jx"]
+[gd_scene load_steps=22 format=3 uid="uid://bij3bajd0p1jx"]
 
 [ext_resource type="PackedScene" uid="uid://dj3ggh021hynw" path="res://Player/player.tscn" id="1_03suu"]
 [ext_resource type="Script" path="res://game.gd" id="1_cxgh8"]
-[ext_resource type="PackedScene" uid="uid://bb4106tpynp81" path="res://Map/level_2.tscn" id="2_0lcu3"]
 [ext_resource type="PackedScene" uid="uid://1m08dnxhnp3u" path="res://Map/level_1.tscn" id="2_7iu8r"]
 [ext_resource type="PackedScene" uid="uid://b3fhwhswncvud" path="res://Gui/hearts_container.tscn" id="5_32hsr"]
 [ext_resource type="Script" path="res://weapon_manager.gd" id="6_1654i"]
-[ext_resource type="Script" path="res://Gui/GameUI.gd" id="6_oo5gl"]
 [ext_resource type="PackedScene" uid="uid://c3onktb47ombf" path="res://Weapons/scenes/torch.tscn" id="7_mkach"]
 [ext_resource type="Script" path="res://control_attk_speed_visibility.gd" id="8_2hltc"]
-[ext_resource type="PackedScene" uid="uid://cacp8md2xgjde" path="res://Utility/enemy_spawner.tscn" id="8_xcd6q"]
 [ext_resource type="Texture2D" uid="uid://rvgkkqymc5jm" path="res://Art/shuriken-export512.png" id="9_j735r"]
-[ext_resource type="Script" path="res://Utility/spawn_info.gd" id="9_l47h6"]
 [ext_resource type="Script" path="res://Utility/End Game/EndGame.gd" id="11_2v0m4"]
-[ext_resource type="PackedScene" uid="uid://bl20y7p4cuu0x" path="res://Enemies/Boss.tscn" id="14_f0rht"]
-[ext_resource type="PackedScene" uid="uid://cusfu02034n3s" path="res://Enemies/torre.tscn" id="15_5ja7p"]
 
 [sub_resource type="Gradient" id="Gradient_0gc56"]
 offsets = PackedFloat32Array(0, 0.775758)
@@ -96,21 +90,11 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="Resource" id="Resource_32xmc"]
-script = ExtResource("9_l47h6")
-time_start = 0
-time_end = 60
-enemy = ExtResource("14_f0rht")
-enemy_num = 1
-enemy_spawn_delay = 0
-
 [node name="Game" type="Node2D"]
 position = Vector2(1, 1)
 scale = Vector2(2, 2)
 script = ExtResource("1_cxgh8")
-rooms = Array[PackedScene]([ExtResource("2_0lcu3")])
-
-[node name="Level1" parent="." instance=ExtResource("2_7iu8r")]
+rooms = Array[PackedScene]([ExtResource("2_7iu8r"), null])
 
 [node name="Camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -176,21 +160,6 @@ offset_bottom = -14.0
 grow_vertical = 0
 scale = Vector2(1.555, 1.555)
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("6_oo5gl")
-
-[node name="Score" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 158.0
-offset_bottom = 31.0
-text = "Inimigos restantes:"
-
 [node name="Control_attk_speed_visibility" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
@@ -209,14 +178,4 @@ script = ExtResource("6_1654i")
 
 [node name="Torch" parent="WeaponManager" instance=ExtResource("7_mkach")]
 
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
-position = Vector2(42.5, -3.5)
-energy = 0.25
-blend_mode = 1
-
-[node name="EnemySpawner" parent="." instance=ExtResource("8_xcd6q")]
-spawns = Array[ExtResource("9_l47h6")]([SubResource("Resource_32xmc")])
-maxEnemies = 1
-
-[node name="torre" parent="." instance=ExtResource("15_5ja7p")]
-position = Vector2(-34, -26.5)
+[node name="Level1" parent="." instance=ExtResource("2_7iu8r")]
