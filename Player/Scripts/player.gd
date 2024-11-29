@@ -35,6 +35,13 @@ var is_dead: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var torch = get_node("Torch")  # Caminho relativo dentro de WeaponManager
+	weapon = $"../WeaponManager/Torch"  # Configura a Torch como arma inicial
+	if weapon:
+		print("Arma inicial equipada:", weapon.name)
+	else:
+		print("Erro: Torch não encontrada!")
+		
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hurtbox.hit_by_hitbox.connect(_on_hit_by_hitbox)

@@ -1,0 +1,163 @@
+[gd_scene load_steps=22 format=3 uid="uid://btntm2u08vglo"]
+
+[ext_resource type="Script" path="res://Weapons/Ammo/enemy_bullet.gd" id="1_oj6hu"]
+[ext_resource type="Texture2D" uid="uid://bx8ksvtort1ht" path="res://Art/Projectile/Lightning/lightning_v2_1-Sheet-export.png" id="3_ffbqg"]
+[ext_resource type="PackedScene" uid="uid://c22hhh4jjwjj0" path="res://Components/scenes/hitbox_component.tscn" id="4_oqk5s"]
+[ext_resource type="Script" path="res://Components/Resources/hit_stats.gd" id="5_x5vly"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sow1c"]
+lifetime_randomness = 0.11
+emission_shape = 1
+emission_sphere_radius = 5.31
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+gravity = Vector3(-50, 0, 0)
+color = Color(1, 0.776471, 0.0823529, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3tys"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(0, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emtvw"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(104, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6sbb"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(208, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skqiy"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(312, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_25qol"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(416, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjnnb"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(520, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ovcq"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(624, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skium"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(728, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0um5d"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(832, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsotg"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(936, 0, 104, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsq2y"]
+atlas = ExtResource("3_ffbqg")
+region = Rect2(1040, 0, 104, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kcver"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3tys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emtvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6sbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skqiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_25qol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjnnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ovcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skium")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0um5d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsotg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wsq2y")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_4stj6"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_chv5b"]
+gradient = SubResource("Gradient_4stj6")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Resource" id="Resource_g78q0"]
+script = ExtResource("5_x5vly")
+damage = 1
+damageType = 0
+knockback = 0.0
+cooldown = 0.0
+can_damage = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_db8ix"]
+radius = 4.0
+height = 8.0
+
+[node name="EnemyBullet" type="Node2D"]
+light_mask = 2
+visibility_layer = 2
+script = ExtResource("1_oj6hu")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_sow1c")
+explosiveness = 0.61
+randomness = 0.3
+
+[node name="Bullet" type="AnimatedSprite2D" parent="."]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(1, 2)
+scale = Vector2(0.455, 0.455)
+sprite_frames = SubResource("SpriteFrames_kcver")
+animation = &"new_animation"
+autoplay = "new_animation"
+frame_progress = 0.372736
+
+[node name="PointLight2D" type="PointLight2D" parent="Bullet"]
+position = Vector2(2.1978, 0)
+scale = Vector2(2.33516, 2.33516)
+color = Color(0.981995, 0.566936, 0.148718, 1)
+energy = 0.5
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_chv5b")
+height = 1.0
+
+[node name="HitboxComponent" parent="." instance=ExtResource("4_oqk5s")]
+collision_layer = 128
+collision_mask = 128
+hitStats = SubResource("Resource_g78q0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+light_mask = 2
+visibility_layer = 2
+shape = SubResource("CapsuleShape2D_db8ix")
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]

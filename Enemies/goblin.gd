@@ -22,6 +22,7 @@ var dead = false
 
 func _ready() -> void:
 	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
+
 	
 	startPosition = position # startPosition = posição atual do personagem.
 	if not dead:
@@ -77,7 +78,6 @@ func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 func _on_died() -> void:
 	print("Goblin morreu!")
 	dead = true
-	move_direction = Vector2.ZERO
 	update_target_position(position)
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
@@ -89,5 +89,7 @@ func _on_died() -> void:
 
 
 
+
 func _on_animated_sprite_2d_animation_finished() -> void:
+	print("Animação finalizada! Goblin será removido.")
 	queue_free()

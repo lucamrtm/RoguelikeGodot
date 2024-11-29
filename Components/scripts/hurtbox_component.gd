@@ -1,7 +1,7 @@
 extends Area2D
 class_name HurtboxComponent
 
-signal hit_by_hitbox(hitbox: HitboxComponent)
+signal hit_by_hitbox(hitbox: Node)  # Agora pode aceitar qualquer nó (ex.: enemy_bullet)
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 @export var canGetHit: bool
@@ -31,3 +31,4 @@ func enable_collision():
 func _on_area_entered(hitbox: HitboxComponent) -> void:
 	if hitbox:
 		hit_by_hitbox.emit(hitbox)
+		
