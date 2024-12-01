@@ -11,8 +11,6 @@ func _ready() -> void:
 
 func setDirection(bulletDirection):
 	direction = bulletDirection
-	rotation_degrees = rad_to_deg(global_position.angle_to_point(global_position + direction))
-
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
 

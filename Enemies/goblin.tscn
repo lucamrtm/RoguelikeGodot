@@ -342,12 +342,12 @@ _data = {
 "hit": SubResource("Animation_rp5rn")
 }
 
-[sub_resource type="Gradient" id="Gradient_adp0o"]
+[sub_resource type="Gradient" id="Gradient_x8omv"]
 offsets = PackedFloat32Array(0, 0.775758)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_c7g6f"]
-gradient = SubResource("Gradient_adp0o")
+gradient = SubResource("Gradient_x8omv")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 

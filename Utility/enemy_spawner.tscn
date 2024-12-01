@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cacp8md2xgjde"]
 
-[ext_resource type="Script" path="res://Utility/enemy_spawner.gd" id="1_77p84"]
+[ext_resource type="Script" path="res://Utility/enemy_spawner_level1.gd" id="1_77p84"]
 [ext_resource type="Script" path="res://Utility/spawn_info.gd" id="2_74ug5"]
 [ext_resource type="PackedScene" uid="uid://le6748rwxf6b" path="res://Enemies/goblin.tscn" id="3_fdj4p"]
 

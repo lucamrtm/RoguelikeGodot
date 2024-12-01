@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@onready var control: Control = get_node("../CanvasLayerLvl2/Control")
+@onready var control: Control = get_node("/root/Level_1/CanvasLayer2/Control")
+
 
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 

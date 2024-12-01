@@ -3,11 +3,17 @@ extends Node2D
 signal room_cleared
 
 @export var spawns: Array[Spawn_info] = []
-@onready var game: Node = get_node("/root/Game")
-var currentLevel: PackedScene
-var control: Control
 
+@onready var control : Control = $"../CanvasLayer2/Control"
+@onready var map : Node = get_parent().get_node("Map_1")
 
+var top_left : Vector2
+var top_right : Vector2
+var bottom_left : Vector2
+var bottom_right : Vector2
+
+var top_left_marker : Marker2D
+var bottom_right_marker : Marker2D
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer: Timer = $Timer
@@ -22,20 +28,23 @@ var currentEnemies = 0
 var time = 0
 
 func _ready() -> void:
-	currentLevel = game.get_level()
-	if currentLevel:
-		print("currentLevel encontrado:", currentLevel)
-		if currentLevel.has_node("CanvasLayer"):
-			var canvas_layer = currentLevel.get_node("CanvasLayer")
-			if canvas_layer.has_node("Control"):
-				control = canvas_layer.get_node("Control")
-			else:
-				print("Control não encontrado no CanvasLayer")
+	if map:
+		top_left_marker = get_parent().get_node("SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
+		bottom_right_marker = get_parent().get_node("SpawnerBottomRightLimit")
+		
+		if top_left_marker and bottom_right_marker:
+			print("Marcadores encontrados!")
+			print("Top Left:", top_left_marker.global_position)
+			print("Bottom Right:", bottom_right_marker.global_position)
 		else:
-			print("CanvasLayer não encontrado no currentLevel")
+			print("Um ou ambos os marcadores não foram encontrados dentro de Level_1!")
 	else:
-		print("currentLevel é null!")
-
+		print("Map_1 não foi encontrado!")
+		
+	top_left = top_left_marker.position
+	bottom_right = bottom_right_marker.position
+	top_right = Vector2(bottom_right.x, top_left.y)
+	bottom_left = Vector2(top_left.x, bottom_right.y)
 
 func _process(delta: float) -> void:
 	#if control.isZero():
@@ -82,17 +91,13 @@ func _on_timer_timeout() -> void:
 					add_child(enemy_spawn)
 					counter += 1
 
-func get_random_position():
-	var vpr = get_viewport_rect().size
-	var top_left = Vector2(-vpr.x / 4,-vpr.y / 4)
-	var top_right = Vector2(vpr.x / 4, -vpr.y / 4)
-	var bottom_left = Vector2(-vpr.x / 4, vpr.y / 4)
-	var bottom_right = Vector2(vpr.x / 4, vpr.y / 4)
-	
+func get_random_position() -> Vector2:
+	# Escolhe aleatoriamente qual lado será usado para o spawn
 	var pos_side = ["up", "down", "right", "left"].pick_random()
 	var spawn_pos1 = Vector2.ZERO
 	var spawn_pos2 = Vector2.ZERO
-	
+
+	# Define os limites baseados nos marcadores
 	match pos_side:
 		"up":
 			spawn_pos1 = top_left
@@ -106,9 +111,12 @@ func get_random_position():
 		"left":
 			spawn_pos1 = top_left
 			spawn_pos2 = bottom_left
-		
+
+	# Gera uma posição aleatória entre os dois pontos definidos
 	var x_spawn = randf_range(spawn_pos1.x, spawn_pos2.x)
 	var y_spawn = randf_range(spawn_pos1.y, spawn_pos2.y)
-	
+
+	# Retorna a posição gerada
 	return Vector2(x_spawn, y_spawn)
+
 	

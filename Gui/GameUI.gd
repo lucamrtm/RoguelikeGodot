@@ -22,7 +22,6 @@ func updateScore():
 	if score == 0:
 		# Notifica o Game que a sala foi limpa
 		var game = get_node("/root/Game")  # Ajuste o caminho para o nó Game
-		game.room_cleared()
 		print("acabou a sala")
 	
 func isZero():
