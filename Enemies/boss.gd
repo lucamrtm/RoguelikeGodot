@@ -29,6 +29,8 @@ const GOBLIN = preload("res://Enemies/Mage/Mage.tscn")
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer = Timer.new()
 
+@onready var torres = get_tree().get_nodes_in_group("torres")
+
 # Estados possíveis do inimigo
 enum State { FOLLOW, FLEE, IDLE }
 var state: int = State.IDLE  # Estado inicial
@@ -59,7 +61,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if dead:
 		return  # Não faz nada se estiver morto
-
+		
+		
+	var torres = get_tree().get_nodes_in_group("torres")
+	
 	update_state()
 	move_and_slide()
 	flip_sprite()
@@ -121,10 +126,21 @@ func flip_sprite():
 
 
 func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
-	print("Hitbox atacando o goblin! Goblin sofreu dano.")
+	print("Hitbox atacando o goblin! Boss sofreu dano.")
 	health_component.damage(hitbox.hitStats.damage)
+	print(hitbox.hitStats.damage)
 	
+	var valid_torres = []
+	for torre in torres:
+		if is_instance_valid(torre):
+			valid_torres.append(torre)
 	
+	if valid_torres.size() > 0:
+		print("Ainda existem torres!")
+		health_component.damage(-hitbox.hitStats.damage)
+		print(-hitbox.hitStats.damage)
+	else:
+		print("Não há mais torres!")
 
 
 func shoot():
@@ -147,6 +163,12 @@ func _on_died() -> void:
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
 	GlobalController.updateScore(-1)
+	
+	var gameOver = get_tree().get_first_node_in_group("tela_final")
+	gameOver.show_game_over_win()
+	queue_free()
+	
+	
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
 	
 

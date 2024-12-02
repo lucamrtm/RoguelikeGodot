@@ -12,15 +12,23 @@ var top_right : Vector2
 var bottom_left : Vector2
 var bottom_right : Vector2
 
+@onready var currentSpawn = 0
+
 var top_left_marker : Marker2D
 var bottom_right_marker : Marker2D
+var top_right_marker : Marker2D
+var bottom_left_marker: Marker2D
+@onready var boost_spawn_pos: Marker2D = $"../BoostSpawn"
 
+const MAGE = preload("res://Enemies/Mage/Mage.tscn")
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var timer: Timer = $Timer
 const BOSS = preload("res://Enemies/Boss.tscn")
 const ATTCKSPEEDBOOST = preload("res://Weapons/attckspeedboost.tscn")
 var boss_spawned = false  # Variável para controlar se o chefe já foi spawnado
 var trigger_cleared = false
+
+@onready var boost_spawned = false
 
 var control: GameUI
 
@@ -38,6 +46,8 @@ func _ready() -> void:
 	if map:
 		top_left_marker =  level.get_node("Map/SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
 		bottom_right_marker = level.get_node("Map/SpawnerBottomRightLimit")
+		top_right_marker =  level.get_node("Map/SpawnerUpperRightLimit") 
+		bottom_left_marker = level.get_node("Map/SpawnerBottomLeftLimit")
 		
 		if top_left_marker and bottom_right_marker:
 			print("Marcadores encontrados!")
@@ -48,10 +58,10 @@ func _ready() -> void:
 	else:
 		print("Map não foi encontrado!")
 		
-	top_left = top_left_marker.position
-	bottom_right = bottom_right_marker.position
-	top_right = Vector2(bottom_right.x, top_left.y)
-	bottom_left = Vector2(top_left.x, bottom_right.y)
+	#top_left = top_left_marker.global_position
+	#bottom_right = bottom_right_marker.global_position
+	#top_right = top_right_marker.global_position
+	#bottom_left = bottom_left_marker.global_position
 
 func _process(delta: float) -> void:
 	pass
@@ -65,28 +75,61 @@ func _physics_process(delta: float) -> void:
 	control = level.get_node("Map/CanvasLayer/Control")
 	var map = level.get_node("Map")
 	if map:
-		top_left_marker =  level.get_node("Map/SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
+		top_left_marker =  level.get_node("Map/SpawnerUpperLeftLimit") 
 		bottom_right_marker = level.get_node("Map/SpawnerBottomRightLimit")
+		top_right_marker =  level.get_node("Map/SpawnerUpperRightLimit") 
+		bottom_left_marker = level.get_node("Map/SpawnerBottomLeftLimit")
 	
 	
-	top_left = top_left_marker.position
-	bottom_right = bottom_right_marker.position
-	top_right = Vector2(bottom_right.x, top_left.y)
-	bottom_left = Vector2(top_left.x, bottom_right.y)
+	#w
 	
 	if currentEnemies == maxEnemies:
 		timer.stop()
-	if control.isZero() and not trigger_cleared: ### TA DANDO NULL PQQQQQQQQQ
+	
+	if control.isZero() and not boost_spawned:
+		
 		spawn_attack_speed_boost()
-		trigger_cleared = true
-		room_cleared.emit()
+
 func get_max_enemies():
 	return maxEnemies
 	
 
 func spawn_attack_speed_boost():
+	boost_spawned = true
+	print("boost spawnado")
 	var boost_spawn = ATTCKSPEEDBOOST.instantiate()
-	add_child(boost_spawn)
+	get_parent().add_child(boost_spawn)
+	boost_spawn.position = boost_spawn_pos.position
+
+
+func reset_spawner():
+	# Reseta as variáveis relacionadas ao controle de spawn
+	spawns[0] = null
+	
+	var spawn_1 = Spawn_info.new()
+	spawn_1.time_start = 0
+	spawn_1.time_end = 60
+	spawn_1.enemy = MAGE  # Caminho para a cena do inimigo
+	spawn_1.enemy_num = 1
+	spawn_1.enemy_spawn_delay = 2
+	
+	spawns = [spawn_1]
+	
+	
+	
+	currentSpawn +=1
+	currentEnemies = 0
+	time = 0
+	boost_spawned = false
+	boss_spawned = false
+
+	# Reinicia os contadores de cada spawn
+
+	# Reinicia o timer
+	if timer:
+		timer.start()
+
+	print("Spawner resetado!")
 
 
 func spawn_boss():
@@ -115,31 +158,8 @@ func _on_timer_timeout() -> void:
 					counter += 1
 
 func get_random_position() -> Vector2:
-	# Escolhe aleatoriamente qual lado será usado para o spawn
-	var pos_side = ["up", "down", "right", "left"].pick_random()
-	var spawn_pos1 = Vector2.ZERO
-	var spawn_pos2 = Vector2.ZERO
-
-	# Define os limites baseados nos marcadores
-	match pos_side:
-		"up":
-			spawn_pos1 = top_left
-			spawn_pos2 = top_right
-		"down":
-			spawn_pos1 = bottom_left
-			spawn_pos2 = bottom_right
-		"right":
-			spawn_pos1 = top_right
-			spawn_pos2 = bottom_right
-		"left":
-			spawn_pos1 = top_left
-			spawn_pos2 = bottom_left
-
-	# Gera uma posição aleatória entre os dois pontos definidos
-	var x_spawn = randf_range(spawn_pos1.x, spawn_pos2.x)
-	var y_spawn = randf_range(spawn_pos1.y, spawn_pos2.y)
-
-	# Retorna a posição gerada
-	return Vector2(x_spawn, y_spawn)
-
-	
+	var markers = get_tree().get_nodes_in_group("spawner_point")
+	for i in markers:
+		print(i)
+	var random_marker: Marker2D = markers.pick_random()
+	return random_marker.global_position

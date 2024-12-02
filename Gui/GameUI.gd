@@ -21,18 +21,21 @@ func _ready() -> void:
 	
 	GlobalController.scoreLabel.text = "Inimigos restantes: %d" % GlobalController.score
 
-
+func _physics_process(delta: float) -> void:
+	
+	score = GlobalController.score
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
 	
 func updateScore():
 	score -= 1
 	scoreLabel.text = "Inimigos restantes: %d" % score
 	if score == 0:
 		# Notifica o Game que a sala foi limpa
-		var game = get_node("/root/Game")  # Ajuste o caminho para o nó Game
+		
 		print("acabou a sala")
 	
 func isZero():
-	return true if score == 0 else false
+	return score == 0

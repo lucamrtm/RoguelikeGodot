@@ -1,31 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://blgc6f47rmme5"]
+[gd_scene load_steps=3 format=3 uid="uid://blgc6f47rmme5"]
 
 [ext_resource type="Script" path="res://Levels/Scripts/level_2.gd" id="1_3xh5i"]
 [ext_resource type="PackedScene" uid="uid://bb4106tpynp81" path="res://Map/map_2.tscn" id="1_gnyak"]
-[ext_resource type="Script" path="res://Gui/GameUI.gd" id="12_k30vm"]
 
 [node name="Level_2" type="Node2D" groups=["Level"]]
 script = ExtResource("1_3xh5i")
 
 [node name="Map" parent="." instance=ExtResource("1_gnyak")]
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer2"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("12_k30vm")
-metadata/_edit_use_anchors_ = true
-
-[node name="Score" type="Label" parent="CanvasLayer2/Control"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 158.0
-offset_bottom = 31.0
-text = "Inimigos restantes:"
-
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(183, 325)
+
+[node name="NextLevelPoint" type="Marker2D" parent="."]
+position = Vector2(185, -11)
