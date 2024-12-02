@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d33ht8tr7uxwi"]
+
+[ext_resource type="PackedScene" uid="uid://bmkj6xicj6bsu" path="res://Map/map_3.tscn" id="1_v5xnq"]
+[ext_resource type="PackedScene" uid="uid://bl20y7p4cuu0x" path="res://Enemies/Boss.tscn" id="2_hlplt"]
+
+[node name="Level3" type="Node2D"]
+
+[node name="Map3" parent="." instance=ExtResource("1_v5xnq")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(247, 472)
+
+[node name="Boss" parent="." instance=ExtResource("2_hlplt")]
+position = Vector2(253, 215)

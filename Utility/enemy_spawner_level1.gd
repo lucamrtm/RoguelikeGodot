@@ -22,7 +22,7 @@ const ATTCKSPEEDBOOST = preload("res://Weapons/attckspeedboost.tscn")
 var boss_spawned = false  # Variável para controlar se o chefe já foi spawnado
 var trigger_cleared = false
 
-var control: Control
+var control: GameUI
 
 @export var maxEnemies : int
 var currentEnemies = 0
@@ -32,6 +32,7 @@ var time = 0
 func _ready() -> void:
 	level = get_tree().get_first_node_in_group("Level")
 	control = level.get_node("Map/CanvasLayer/Control")
+	print(control)
 	
 	var map = level.get_node("Map")
 	if map:
@@ -107,6 +108,7 @@ func _on_timer_timeout() -> void:
 				var counter = 0
 				while counter < i.enemy_num:
 					var enemy_spawn = new_enemy.instantiate()
+					enemy_spawn.control = control
 					currentEnemies+=1
 					enemy_spawn.position = get_random_position()
 					add_child(enemy_spawn)

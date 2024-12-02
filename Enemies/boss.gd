@@ -38,10 +38,10 @@ var dead: bool = false
 
 func _ready() -> void:
 	
-	currentLevel = game.get_level()
-	if currentLevel:
-		var canvas_layer = currentLevel.get_node("CanvasLayer")
-		control = canvas_layer.get_node("Control")
+	#currentLevel = game.get_level()
+	#if currentLevel:
+		#var canvas_layer = currentLevel.get_node("CanvasLayer")
+		#control = canvas_layer.get_node("Control")
 	
 	
 	shoot_speed_timer.wait_time = shootSpeed  # Configura o tempo entre disparos
@@ -146,7 +146,7 @@ func _on_died() -> void:
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
-	control.updateScore()
+	GlobalController.updateScore(-1)
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
 	
 

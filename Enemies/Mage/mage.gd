@@ -145,7 +145,7 @@ func _on_died() -> void:
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
-	control.updateScore()
+	GlobalController.updateScore(-1)
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
 	
 

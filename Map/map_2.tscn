@@ -16,8 +16,9 @@ signal level_exit_entered
 @onready var bottom_right_limit = $BottomRightLimit
 
 func _ready() -> void:
-	area.monitoring = false
-
+	#area.monitoring = false
+	pass
+	
 
 func enable_exit() -> void:
 	area.monitoring = true

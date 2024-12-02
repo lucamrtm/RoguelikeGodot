@@ -5,6 +5,7 @@ const FILE_BEGIN = "res://Levels/Scenes/Level_"
 var level = 1
 
 const LEVEL_2 = preload("res://Levels/Scenes/Level_2.tscn")
+const LEVEL_3 = preload("res://Levels/Scenes/Level_3.tscn")
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
