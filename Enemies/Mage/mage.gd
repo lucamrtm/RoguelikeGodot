@@ -1,5 +1,7 @@
 extends CharacterBody2D
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+
+
+
 
 @onready var eyes = $eyes
 @onready var luz_olhos_1: PointLight2D = $olhos/LuzOlhos1
@@ -16,6 +18,10 @@ var bulletDirection
 @onready var marker_2d: Marker2D = $AnimatedSprite2D/Marker2D
 
 const GOBLIN = preload("res://Enemies/Mage/Mage.tscn")
+
+@onready var game: Node = get_node("/root/Game")
+var currentLevel: Node 
+var control: Control 
 
 
 @export var speed: float = 90
@@ -34,6 +40,9 @@ var move_direction: Vector2
 var dead: bool = false
 
 func _ready() -> void:
+	
+	
+	
 	shoot_speed_timer.wait_time = shootSpeed  # Configura o tempo entre disparos
 	shoot_speed_timer.one_shot = true  # Impede disparos consecutivos
 	shoot_speed_timer.timeout.connect(_on_shoot_speed_timer_timeout)  # Conecta o temporizador ao método
@@ -59,7 +68,7 @@ func _physics_process(delta: float) -> void:
 	bulletDirection = (player.global_position - global_position).normalized()
 
 func update_state():
-	var distance_to_player = position.distance_to(player.position)
+	var distance_to_player = global_position.distance_to(player.global_position)
 
 	# Se está fugindo
 	if state == State.FLEE:
@@ -83,11 +92,11 @@ func update_state():
 
 func start_fleeing():
 	timer.start()
-	move_direction = (position - player.position).normalized()
+	move_direction = (global_position - player.global_position).normalized()
 	velocity = move_direction * speed
 
 func start_following():
-	move_direction = (player.position - position).normalized()
+	move_direction = (player.global_position - global_position).normalized()
 	velocity = move_direction * speed
 
 func update_velocity():
@@ -136,7 +145,7 @@ func _on_died() -> void:
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
-	control.updateScore()
+	GlobalController.updateScore(-1)
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
 	
 

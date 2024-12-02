@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://d33ht8tr7uxwi"]
+
+[ext_resource type="Script" path="res://Levels/Scenes/level_3.gd" id="1_7bks3"]
+[ext_resource type="PackedScene" uid="uid://bmkj6xicj6bsu" path="res://Map/map_3.tscn" id="1_v5xnq"]
+[ext_resource type="PackedScene" uid="uid://bl20y7p4cuu0x" path="res://Enemies/Boss.tscn" id="2_hlplt"]
+[ext_resource type="PackedScene" uid="uid://cusfu02034n3s" path="res://Enemies/torre.tscn" id="4_w0o6a"]
+
+[node name="Level3" type="Node2D" groups=["Level"]]
+script = ExtResource("1_7bks3")
+
+[node name="Map" parent="." instance=ExtResource("1_v5xnq")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(247, 475)
+
+[node name="Boss_towers" type="Node2D" parent="."]
+
+[node name="Boss" parent="Boss_towers" instance=ExtResource("2_hlplt")]
+position = Vector2(253, 215)
+
+[node name="torre" parent="Boss_towers" groups=["torres"] instance=ExtResource("4_w0o6a")]
+position = Vector2(127, 133)
+
+[node name="torre2" parent="Boss_towers" groups=["torres"] instance=ExtResource("4_w0o6a")]
+position = Vector2(373, 133)

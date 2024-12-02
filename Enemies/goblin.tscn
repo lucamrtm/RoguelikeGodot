@@ -342,12 +342,12 @@ _data = {
 "hit": SubResource("Animation_rp5rn")
 }
 
-[sub_resource type="Gradient" id="Gradient_adp0o"]
+[sub_resource type="Gradient" id="Gradient_x8omv"]
 offsets = PackedFloat32Array(0, 0.775758)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_c7g6f"]
-gradient = SubResource("Gradient_adp0o")
+gradient = SubResource("Gradient_x8omv")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -431,6 +431,7 @@ color = Color(0.306064, 0.747766, 0.8839, 1)
 energy = 0.1
 range_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_c7g6f")
+texture_scale = 2.35
 height = 1.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -100,7 +100,7 @@ time_start = 0
 time_end = 50
 enemy = ExtResource("11_k84vx")
 enemy_num = 1
-enemy_spawn_delay = 2
+enemy_spawn_delay = 1
 
 [node name="Game" type="Node2D"]
 position = Vector2(0, -1)
@@ -119,7 +119,7 @@ height = 1.0
 
 [node name="EndScreen" type="CanvasLayer" parent="Player"]
 
-[node name="GameOver" type="Control" parent="Player/EndScreen" groups=["tela_final"]]
+[node name="GameOver" type="Control" parent="Player/EndScreen"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -192,18 +192,13 @@ autoplay = "default"
 
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("9_rv53o")]
 z_index = 1
-position = Vector2(6, -113)
+position = Vector2(-200, -110)
 spawns = Array[ExtResource("10_qt61x")]([SubResource("Resource_my2u7")])
-
-[node name="LevelManager" type="Node2D" parent="."]
-
-[node name="Level_1" parent="LevelManager" instance=ExtResource("12_xge1i")]
-position = Vector2(9.53674e-07, -0.000473022)
-scale = Vector2(1, 1)
 
 [node name="NextLevel" parent="." instance=ExtResource("14_x3b8s")]
 position = Vector2(9.5, -178.5)
 scale = Vector2(1.585, 1.585)
 
-[node name="BoostSpawn" type="Marker2D" parent="."]
-position = Vector2(7, -109)
+[node name="Level_1" parent="NextLevel" instance=ExtResource("12_xge1i")]
+position = Vector2(-5.99369, 112.618)
+scale = Vector2(0.630915, 0.630915)

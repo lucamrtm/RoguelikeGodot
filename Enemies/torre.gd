@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@onready var control: Control = get_node("/root/Game/CanvasLayer/Control")
+@onready var control: GameUI = get_node("/root/Game/NextLevel/Level_2/CanvasLayer2/Control")
+
 
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
@@ -37,6 +38,7 @@ func _on_hit_by_hitbox(hitbox: HitboxComponent) -> void:
 	print("Hitbox atacando a torre! Torre sofreu dano.")
 	health_component.damage(hitbox.hitStats.damage)
 	animation_player.play("hit")
+	print(get_node("/root/Game/NextLevel/Level_2/CanvasLayer2/Control"))
 	
 
 func _on_died() -> void:
@@ -45,7 +47,7 @@ func _on_died() -> void:
 	print("Chamando a animação de morte")
 	animated_sprite_2d.play("death_animation")
 	print("Animação atual:", animated_sprite_2d.animation)
-	control.updateScore()
+	GlobalController.updateScore(-1)
 	# Conecta o sinal de término da animação para chamar o `queue_free` depois
 	
 

@@ -1,51 +1,58 @@
 extends Node2D
+var sceneLimit : Marker2D
+@onready var camera: Camera2D = $Player/Camera
 
-@onready var level = $Level1
-@onready var camera = $Camera
+var currentScene = null
+@onready var level_switcher = get_node("NextLevel")
 @onready var player = $Player
+@onready var boost_spawn: Marker2D = $BoostSpawn
+
 @onready var hearts_container = $CanvasLayer/heartsContainer
 @onready var weapon_manager = $WeaponManager
-@onready var enemy_spawner = $EnemySpawner
 
-@export var rooms: Array[PackedScene]
-var nextRoom = 0
+@onready var map : Node 
+@onready var level: Node2D
 
-# Called when the node enters the scene tree for the first time.
+
+
+var upper_left_limit : Marker2D
+var bottom_right_limit : Marker2D
+
 func _ready() -> void:
-	remove_child(camera)
-	player.add_child(camera)
-	camera.zoom = Vector2(1.2, 1.2)  # Aumenta o zoom (aproxima)
+	
+	level = get_tree().get_first_node_in_group("Level")
+	
+	
 	hearts_container.player_health = player.health
 	player.health.healthChanged.connect(hearts_container.updateHearts)
 	weapon_manager.player = player
 	weapon_manager.equip_starting_weapon()
-	enemy_spawner.room_cleared.connect(room_cleared)
-	level.level_exit_entered.connect(next_level)
-	camera.limit_top = level.upper_left_limit.global_position.y
-	camera.limit_left = level.upper_left_limit.global_position.x
-	camera.limit_bottom = level.bottom_right_limit.global_position.y
-	camera.limit_right = level.bottom_right_limit.global_position.x
+	
+	
+	camera.zoom = Vector2(1.5,1.5)
+	
+	upper_left_limit =  level.get_node("Map/UpperLeftLimit")  # Caminho relativo dentro de Map_1
+	bottom_right_limit = level.get_node("Map/BottomRightLimit")
+	camera.limit_top = upper_left_limit.global_position.y
+	camera.limit_left = upper_left_limit.global_position.x
+	camera.limit_bottom = bottom_right_limit.global_position.y
+	camera.limit_right = bottom_right_limit.global_position.x
+	
+	
+	
+			
+func _physics_process(delta: float) -> void:
+	level = get_tree().get_first_node_in_group("Level")
+	if level.has_node("NextLevelPoint"):
+		level_switcher.position = (level.get_node("NextLevelPoint")).position
+	
+	upper_left_limit =  level.get_node("Map/UpperLeftLimit")  # Caminho relativo dentro de Map_1
+	bottom_right_limit = level.get_node("Map/BottomRightLimit")
+	camera.limit_top = upper_left_limit.global_position.y
+	camera.limit_left = upper_left_limit.global_position.x
+	camera.limit_bottom = bottom_right_limit.global_position.y
+	camera.limit_right = bottom_right_limit.global_position.x
+		
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func process():
 	pass
-
-
-func room_cleared() -> void:
-	level.enable_exit()
-
-
-func next_level() -> void:
-	level.queue_free()
-	level = rooms[nextRoom].instantiate()
-	add_child(level)
-	level.level_exit_entered.connect(next_level)
-	player.position = level.spawnpoint.position
-	camera.position = player.position
-	if nextRoom == 0:
-		enemy_spawner.trigger_cleared = false
-		enemy_spawner.maxEnemies = 2
-		enemy_spawner.currentEnemies = 0
-		enemy_spawner.timer.start()
-	nextRoom += 1

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b447o7grm0s8f"]
+
+[ext_resource type="PackedScene" uid="uid://1m08dnxhnp3u" path="res://Map/map_1.tscn" id="1_spt3n"]
+
+[node name="Level_1" type="Node2D" groups=["Level"]]
+
+[node name="Map" parent="." instance=ExtResource("1_spt3n")]
+
+[node name="NextLevelPoint" type="Marker2D" parent="."]
+position = Vector2(7, -167)
