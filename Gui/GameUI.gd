@@ -1,12 +1,15 @@
 extends Control
 
 @onready var scoreLabel: Label = $Score
-@onready var enemy_spawner: Node2D = get_node("../../EnemySpawner")
+@onready var enemy_spawner : Node2D
+
 
 var score
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	enemy_spawner = get_tree().get_first_node_in_group("EnemySpawner")
+	
 	score = enemy_spawner.get_max_enemies()
 
 	scoreLabel.text = "Inimigos restantes: %d" % score

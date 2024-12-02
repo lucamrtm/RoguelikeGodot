@@ -600,6 +600,7 @@ position = Vector2(243, 136)
 collision_layer = 5
 collision_mask = 7
 script = ExtResource("1_8lsnq")
+max_speed = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 5
@@ -650,3 +651,15 @@ process_material = SubResource("ParticleProcessMaterial_f777c")
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(-1, -5)
+zoom = Vector2(1.2, 1.2)
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.03
+drag_top_margin = 0.03
+drag_right_margin = 0.03
+drag_bottom_margin = 0.03

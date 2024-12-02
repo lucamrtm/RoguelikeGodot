@@ -1,0 +1,203 @@
+[gd_scene load_steps=27 format=3 uid="uid://dynjr30mlj8e7"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_mcjmb"]
+[ext_resource type="PackedScene" uid="uid://dj3ggh021hynw" path="res://Player/player.tscn" id="2_bn438"]
+[ext_resource type="Script" path="res://weapon_manager.gd" id="3_fwk7m"]
+[ext_resource type="Script" path="res://Utility/End Game/EndGame.gd" id="3_wc44i"]
+[ext_resource type="PackedScene" uid="uid://c3onktb47ombf" path="res://Weapons/scenes/torch.tscn" id="4_qf67p"]
+[ext_resource type="PackedScene" uid="uid://b3fhwhswncvud" path="res://Gui/hearts_container.tscn" id="5_bb4eg"]
+[ext_resource type="Script" path="res://control_attk_speed_visibility.gd" id="6_xwhfl"]
+[ext_resource type="Texture2D" uid="uid://rvgkkqymc5jm" path="res://Art/shuriken-export512.png" id="7_iw8tv"]
+[ext_resource type="PackedScene" uid="uid://cacp8md2xgjde" path="res://Utility/enemy_spawner.tscn" id="9_rv53o"]
+[ext_resource type="Script" path="res://Utility/spawn_info.gd" id="10_qt61x"]
+[ext_resource type="PackedScene" uid="uid://le6748rwxf6b" path="res://Enemies/goblin.tscn" id="11_k84vx"]
+[ext_resource type="PackedScene" uid="uid://b447o7grm0s8f" path="res://Levels/Scenes/Level_1.tscn" id="12_xge1i"]
+[ext_resource type="PackedScene" uid="uid://jhdwg4yfaobn" path="res://Levels/Scenes/next_level.tscn" id="14_x3b8s"]
+
+[sub_resource type="Gradient" id="Gradient_1tbbb"]
+offsets = PackedFloat32Array(0, 0.775758)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rwckx"]
+gradient = SubResource("Gradient_1tbbb")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yv0a5"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6i0b0"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rk7a"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15wc2"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxtcj"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(2048, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8mul"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(2560, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vvwl"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(3072, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65rne"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(3584, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4q6l"]
+atlas = ExtResource("7_iw8tv")
+region = Rect2(4096, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kgbau"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yv0a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6i0b0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rk7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15wc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxtcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8mul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vvwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65rne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4q6l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="Resource" id="Resource_my2u7"]
+script = ExtResource("10_qt61x")
+time_start = 0
+time_end = 50
+enemy = ExtResource("11_k84vx")
+enemy_num = 2
+enemy_spawn_delay = 2
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_mcjmb")
+
+[node name="Player" parent="." instance=ExtResource("2_bn438")]
+position = Vector2(8, 163)
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+position = Vector2(6, -1)
+scale = Vector2(1.62071, 1.30821)
+color = Color(0.981995, 0.566936, 0.148718, 1)
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_rwckx")
+height = 1.0
+
+[node name="EndScreen" type="CanvasLayer" parent="Player"]
+
+[node name="GameOver" type="Control" parent="Player/EndScreen"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_wc44i")
+metadata/_edit_use_anchors_ = true
+
+[node name="Vitória" type="Label" parent="Player/EndScreen/GameOver"]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 141.0
+offset_right = 372.0
+offset_bottom = 164.0
+text = "Parabéns! Você derrotou o Boss!"
+metadata/_edit_use_anchors_ = true
+
+[node name="Derrota" type="Label" parent="Player/EndScreen/GameOver"]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 195.0
+offset_right = 320.0
+offset_bottom = 230.0
+theme_override_font_sizes/font_size = 25
+text = "Game over"
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Derrota2" type="Label" parent="Player/EndScreen/GameOver/Derrota"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 29.0
+offset_right = 269.0
+offset_bottom = 52.0
+text = "Você Morreu.
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="WeaponManager" type="Node" parent="."]
+script = ExtResource("3_fwk7m")
+
+[node name="Torch" parent="WeaponManager" instance=ExtResource("4_qf67p")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="heartsContainer" parent="CanvasLayer" instance=ExtResource("5_bb4eg")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = -14.0
+offset_right = 11.0
+offset_bottom = -14.0
+grow_vertical = 0
+scale = Vector2(1.555, 1.555)
+metadata/_edit_use_anchors_ = true
+
+[node name="Control_attk_speed_visibility" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_xwhfl")
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/Control_attk_speed_visibility"]
+position = Vector2(25, 421)
+scale = Vector2(0.04, 0.04)
+sprite_frames = SubResource("SpriteFrames_kgbau")
+autoplay = "default"
+
+[node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("9_rv53o")]
+z_index = 1
+position = Vector2(271, 159)
+spawns = Array[ExtResource("10_qt61x")]([SubResource("Resource_my2u7")])
+
+[node name="NextLevel" parent="." instance=ExtResource("14_x3b8s")]
+position = Vector2(9.5, -178.5)
+scale = Vector2(1.585, 1.585)
+
+[node name="Level_1" parent="NextLevel" instance=ExtResource("12_xge1i")]
+position = Vector2(-5.99369, 112.618)
+scale = Vector2(0.630915, 0.630915)

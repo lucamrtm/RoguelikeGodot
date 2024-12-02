@@ -40,10 +40,7 @@ var move_direction: Vector2
 var dead: bool = false
 
 func _ready() -> void:
-	currentLevel = game.get_level()
-	if currentLevel:
-		var canvas_layer = currentLevel.get_node("CanvasLayer")
-		control = canvas_layer.get_node("Control")
+	
 	
 	
 	shoot_speed_timer.wait_time = shootSpeed  # Configura o tempo entre disparos
@@ -71,7 +68,7 @@ func _physics_process(delta: float) -> void:
 	bulletDirection = (player.global_position - global_position).normalized()
 
 func update_state():
-	var distance_to_player = position.distance_to(player.position)
+	var distance_to_player = global_position.distance_to(player.global_position)
 
 	# Se está fugindo
 	if state == State.FLEE:
@@ -95,11 +92,11 @@ func update_state():
 
 func start_fleeing():
 	timer.start()
-	move_direction = (position - player.position).normalized()
+	move_direction = (global_position - player.global_position).normalized()
 	velocity = move_direction * speed
 
 func start_following():
-	move_direction = (player.position - position).normalized()
+	move_direction = (player.global_position - global_position).normalized()
 	velocity = move_direction * speed
 
 func update_velocity():

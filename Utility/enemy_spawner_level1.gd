@@ -3,9 +3,9 @@ extends Node2D
 signal room_cleared
 
 @export var spawns: Array[Spawn_info] = []
+@onready var level: Node2D
 
-@onready var control : Control = $"../CanvasLayer2/Control"
-@onready var map : Node = get_parent().get_node("Map_1")
+@onready var map : Node 
 
 var top_left : Vector2
 var top_right : Vector2
@@ -22,24 +22,30 @@ const ATTCKSPEEDBOOST = preload("res://Weapons/attckspeedboost.tscn")
 var boss_spawned = false  # Variável para controlar se o chefe já foi spawnado
 var trigger_cleared = false
 
+var control: Control
+
 @export var maxEnemies : int
 var currentEnemies = 0
 
 var time = 0
 
 func _ready() -> void:
+	level = get_tree().get_first_node_in_group("Level")
+	control = level.get_node("Map/CanvasLayer/Control")
+	
+	var map = level.get_node("Map")
 	if map:
-		top_left_marker = get_parent().get_node("SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
-		bottom_right_marker = get_parent().get_node("SpawnerBottomRightLimit")
+		top_left_marker =  level.get_node("Map/SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
+		bottom_right_marker = level.get_node("Map/SpawnerBottomRightLimit")
 		
 		if top_left_marker and bottom_right_marker:
 			print("Marcadores encontrados!")
 			print("Top Left:", top_left_marker.global_position)
 			print("Bottom Right:", bottom_right_marker.global_position)
 		else:
-			print("Um ou ambos os marcadores não foram encontrados dentro de Level_1!")
+			print("Um ou ambos os marcadores não foram encontrados dentro de Level")
 	else:
-		print("Map_1 não foi encontrado!")
+		print("Map não foi encontrado!")
 		
 	top_left = top_left_marker.position
 	bottom_right = bottom_right_marker.position
@@ -47,17 +53,32 @@ func _ready() -> void:
 	bottom_left = Vector2(top_left.x, bottom_right.y)
 
 func _process(delta: float) -> void:
-	#if control.isZero():
+	pass
+
+func _physics_process(delta: float) -> void:
+		#if control.isZero():
 		#queue_free()
 		#timer.stop()
+		
+	level = get_tree().get_first_node_in_group("Level")
+	control = level.get_node("Map/CanvasLayer/Control")
+	var map = level.get_node("Map")
+	if map:
+		top_left_marker =  level.get_node("Map/SpawnerUpperLeftLimit")  # Caminho relativo dentro de Map_1
+		bottom_right_marker = level.get_node("Map/SpawnerBottomRightLimit")
+	
+	
+	top_left = top_left_marker.position
+	bottom_right = bottom_right_marker.position
+	top_right = Vector2(bottom_right.x, top_left.y)
+	bottom_left = Vector2(top_left.x, bottom_right.y)
+	
 	if currentEnemies == maxEnemies:
 		timer.stop()
 	if control.isZero() and not trigger_cleared: ### TA DANDO NULL PQQQQQQQQQ
 		spawn_attack_speed_boost()
 		trigger_cleared = true
 		room_cleared.emit()
-
-
 func get_max_enemies():
 	return maxEnemies
 	
@@ -87,7 +108,7 @@ func _on_timer_timeout() -> void:
 				while counter < i.enemy_num:
 					var enemy_spawn = new_enemy.instantiate()
 					currentEnemies+=1
-					enemy_spawn.global_position = get_random_position()
+					enemy_spawn.position = get_random_position()
 					add_child(enemy_spawn)
 					counter += 1
 
